@@ -33,8 +33,7 @@ class ImageWallFragment : Fragment() {
         (activity?.application as App).appComponent.inject(this)
 
         recyclerView?.layoutManager = LinearLayoutManager(context)
-        val adapter = ImageListAdapter(ArrayList())
-        recyclerView?.adapter = adapter
+
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         viewModel.listImageLiveData.observe(viewLifecycleOwner, ::glideImageList)
