@@ -28,7 +28,9 @@ class ImageWallFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_image_wall, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycleImageWall)
+
+        recyclerView = view.findViewById(R.id.recycleImageWall)
+        initRecyclerView()
 
         (activity?.application as App).appComponent.inject(this)
 
@@ -45,6 +47,11 @@ class ImageWallFragment : Fragment() {
 
     private fun glideImageList(imageList: List<ImageDao>) {
         val adapter = ImageListAdapter(imageList)
+        recyclerView?.adapter = adapter
+    }
+
+    private fun initRecyclerView() {
+        val adapter = ImageListAdapter(ArrayList())
         recyclerView?.adapter = adapter
     }
 
