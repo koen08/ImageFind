@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ImageDaoNet(
     val id: Long,
-    @SerializedName("webformatURL") val url: String
+    @SerializedName("webformatURL") val url: String,
+    val userImageURL: String,
+    @SerializedName("user") val userName: String
 )

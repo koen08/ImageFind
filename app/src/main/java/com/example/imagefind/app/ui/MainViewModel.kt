@@ -34,7 +34,14 @@ class MainViewModel @Inject constructor(private val getImageByName: GetImageByNa
     private fun networkDaoToImageDomain(imageListNet: ImageListNet): ImageList {
         val imageList = ImageList(ArrayList())
         for (imageDao in imageListNet.hits) {
-            imageList.hits.add(ImageDao(imageDao.id, imageDao.url))
+            imageList.hits.add(
+                ImageDao(
+                    imageDao.id,
+                    imageDao.url,
+                    imageDao.userImageURL,
+                    imageDao.userName
+                )
+            )
         }
         return imageList
     }
