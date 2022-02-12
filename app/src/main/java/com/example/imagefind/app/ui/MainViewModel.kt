@@ -39,7 +39,9 @@ class MainViewModel @Inject constructor(private val getImageByName: GetImageByNa
                     imageDao.id,
                     imageDao.url,
                     imageDao.userImageURL,
-                    imageDao.userName
+                    imageDao.userName,
+                    imageDao.likes,
+                    imageDao.views
                 )
             )
         }

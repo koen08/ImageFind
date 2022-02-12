@@ -6,5 +6,7 @@ data class ImageDaoNet(
     val id: Long,
     @SerializedName("webformatURL") val url: String,
     val userImageURL: String,
-    @SerializedName("user") val userName: String
+    @SerializedName("user") val userName: String,
+    val likes: Int,
+    val views: Int
 )
