@@ -1,3 +1,3 @@
 package com.example.imagefind.domain.models
 
-data class ImageList(var hits: MutableList<ImageDao>)
+data class ImageList(var hits: MutableList<ImageDto>)

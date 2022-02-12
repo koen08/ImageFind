@@ -89,6 +89,7 @@
             app:layout_constraintVertical_bias="0.50" />
 
         <ImageView
+            android:id="@+id/importantImageView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:rotation="90"
