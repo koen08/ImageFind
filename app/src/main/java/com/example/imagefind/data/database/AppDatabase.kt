@@ -4,12 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.example.imagefind.data.models.ImageTable
 
 @Database(entities = [ImageTable::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun imageDao(): ImageDao
+    abstract fun imageDao(): ImageDaoDatabase
 
     companion object {
         var INSTANCE: AppDatabase? = null
