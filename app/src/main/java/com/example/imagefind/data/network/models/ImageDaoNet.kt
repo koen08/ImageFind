@@ -1,4 +1,4 @@
-package com.example.imagefind.data.models
+package com.example.imagefind.data.network.models
 
 import com.google.gson.annotations.SerializedName
 

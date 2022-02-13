@@ -2,7 +2,7 @@ package com.example.imagefind.data.service
 
 import com.example.imagefind.data.database.ImageDao
 import com.example.imagefind.data.database.ImageDaoDatabase
-import com.example.imagefind.data.models.ImageTable
+import com.example.imagefind.data.database.models.ImageTable
 
 class ImageDaoImpl(private val imageDaoDataBase: ImageDaoDatabase) : ImageDao {
     override fun insert(imageTable: ImageTable) {

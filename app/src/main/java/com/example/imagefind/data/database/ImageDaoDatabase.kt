@@ -1,7 +1,7 @@
 package com.example.imagefind.data.database
 
 import androidx.room.*
-import com.example.imagefind.data.models.ImageTable
+import com.example.imagefind.data.database.models.ImageTable
 
 @Dao
 interface ImageDaoDatabase {

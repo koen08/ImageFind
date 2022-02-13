@@ -1,7 +1,6 @@
 package com.example.imagefind.data.api
 
-import com.example.imagefind.data.models.ImageListNet
-import io.reactivex.rxjava3.core.Observable
+import com.example.imagefind.data.network.models.ImageListNet
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,4 +1,4 @@
-package com.example.imagefind.data.models
+package com.example.imagefind.data.database.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
