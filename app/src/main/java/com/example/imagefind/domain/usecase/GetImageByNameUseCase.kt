@@ -5,7 +5,7 @@ import com.example.imagefind.domain.service.ImageService
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class GetImageByName @Inject constructor(private val imageService: ImageService) {
+class GetImageByNameUseCase @Inject constructor(private val imageService: ImageService) {
     fun get(name: String): Single<ImageListNet> {
         return imageService.get(name)
     }
