@@ -37,9 +37,9 @@ class MainViewModel @Inject constructor(
             })
     }
 
-    fun addImageIdToDB(imageId: Long) {
+    fun addImageIdToDB(imageId: Long, imageUrl: String) {
         Observable.fromCallable {
-            val imageTable = ImageTable(imageId = imageId)
+            val imageTable = ImageTable(imageId = imageId, imageUrl = imageUrl)
             addImageDatabaseUseCase.add(imageTable)
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

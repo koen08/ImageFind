@@ -9,12 +9,14 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
+import com.example.imagefind.data.database.ImageDao
+import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.domain.models.ImageDto
 import com.google.android.material.imageview.ShapeableImageView
 
 class ImageListAdapter(private val imageList: List<ImageDto>) :
     RecyclerView.Adapter<ImageListAdapter.ViewHolder>() {
-    var importantListener: ((Long) -> Unit)? = { }
+    var importantListener: ((ImageDto) -> Unit)? = { }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageItem)
@@ -43,7 +45,7 @@ class ImageListAdapter(private val imageList: List<ImageDto>) :
         Glide.with(holder.imageView).load(imageDao.url).into(holder.imageView)
 
         holder.importantImageView.setOnClickListener {
-            importantListener?.invoke(imageDao.id)
+            importantListener?.invoke(imageDao)
         }
     }
 

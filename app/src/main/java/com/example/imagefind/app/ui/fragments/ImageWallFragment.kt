@@ -48,7 +48,7 @@ class ImageWallFragment : Fragment() {
         val adapter = ImageListAdapter(imageList)
         recyclerView?.adapter = adapter
         adapter.importantListener = {
-            viewModel.addImageIdToDB(it)
+            viewModel.addImageIdToDB(it.id, it.url)
         }
     }
 
