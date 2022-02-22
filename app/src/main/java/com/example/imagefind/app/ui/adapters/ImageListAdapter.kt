@@ -33,7 +33,6 @@ class ImageListAdapter(private val imageList: List<ImageDto>) :
         return ViewHolder(view)
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageDao = imageList[position]
         holder.nickNameTextView.text = imageDao.userName

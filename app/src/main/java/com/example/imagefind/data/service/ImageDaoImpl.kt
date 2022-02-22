@@ -4,9 +4,10 @@ import com.example.imagefind.data.database.ImageDao
 import com.example.imagefind.data.database.ImageDaoDatabase
 import com.example.imagefind.data.database.models.ImageTable
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class ImageDaoImpl(private val imageDaoDataBase: ImageDaoDatabase) : ImageDao {
-    override fun insert(imageTable: ImageTable) : Completable {
+    override fun insert(imageTable: ImageTable): Completable {
         return imageDaoDataBase.insert(imageTable)
     }
 
@@ -14,7 +15,7 @@ class ImageDaoImpl(private val imageDaoDataBase: ImageDaoDatabase) : ImageDao {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): List<ImageTable> {
-        TODO("Not yet implemented")
+    override fun getAll(): Single<List<ImageTable>> {
+        return imageDaoDataBase.getAll()
     }
 }
