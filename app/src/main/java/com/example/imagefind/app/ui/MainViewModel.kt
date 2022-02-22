@@ -22,8 +22,13 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var dispos: Disposable? = null
+    private var disAddImageId: Disposable? = null
+
     private val listImageMutableLive = MutableLiveData<List<ImageDto>>()
     val listImageLiveData: LiveData<List<ImageDto>> = listImageMutableLive
+
+    private val completeMutableAddInfoImage = MutableLiveData<String>()
+    val completeAddInfoImage : LiveData<String> = completeMutableAddInfoImage
 
     fun getImageListByName(name: String) {
         val result = getImageByNameUseCase.get(name)
@@ -38,12 +43,13 @@ class MainViewModel @Inject constructor(
     }
 
     fun addImageIdToDB(imageId: Long, imageUrl: String) {
-        Observable.fromCallable {
-            val imageTable = ImageTable(imageId = imageId, imageUrl = imageUrl)
-            addImageDatabaseUseCase.add(imageTable)
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+        val imageTable = ImageTable(imageId = imageId, imageUrl = imageUrl)
+        disAddImageId = addImageDatabaseUseCase.add(imageTable).subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                completeMutableAddInfoImage.value = "Image added to favorites"
+            }, {
+                Log.e("AAA", it.localizedMessage!!)
+            })
     }
 
     private fun networkDaoToImageDomain(imageListNet: ImageListNet): ImageList {
@@ -65,5 +71,6 @@ class MainViewModel @Inject constructor(
 
     fun onDestroy() {
         dispos?.dispose()
+        disAddImageId?.dispose()
     }
 }

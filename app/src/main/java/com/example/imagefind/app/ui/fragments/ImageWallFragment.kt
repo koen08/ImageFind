@@ -38,10 +38,15 @@ class ImageWallFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.listImageLiveData.observe(viewLifecycleOwner, ::glideImageList)
+        viewModel.completeAddInfoImage.observe(viewLifecycleOwner, ::showToast)
 
         viewModel.getImageListByName("android")
 
         return view
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
     private fun glideImageList(imageList: List<ImageDto>) {
