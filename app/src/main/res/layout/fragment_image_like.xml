@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.ui.fragments.ImageLikeFragment">
+    tools:context=".app.ui.fragments.favorite.ImageLikeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleImageLike"

@@ -1,4 +1,4 @@
-package com.example.imagefind.app.ui.fragments
+package com.example.imagefind.app.ui.fragments.favorite
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.R
 import com.example.imagefind.app.App
-import com.example.imagefind.app.ui.FavoriteViewModel
-import com.example.imagefind.app.ui.FavoriteViewModelFactory
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
 import com.example.imagefind.domain.models.ImageFavoriteList
 import javax.inject.Inject

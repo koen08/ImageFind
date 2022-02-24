@@ -1,4 +1,4 @@
-package com.example.imagefind.app.ui
+package com.example.imagefind.app.ui.fragments.wall
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -43,7 +43,7 @@ class MainViewModel @Inject constructor(
 
     fun addImageIdToDB(imageId: Long, imageUrl: String) {
         val imageTable = ImageTable(imageId = imageId, imageUrl = imageUrl)
-        disAddImageId = addImageDatabaseUseCase.add(imageTable).subscribeOn(Schedulers.newThread())
+        disAddImageId = addImageDatabaseUseCase.add(imageTable).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 completeMutableAddInfoImage.value = "Image added to favorites"
             }, {

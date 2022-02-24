@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.imagefind.R
-import com.example.imagefind.app.ui.fragments.ImageLikeFragment
-import com.example.imagefind.app.ui.fragments.ImageWallFragment
+import com.example.imagefind.app.ui.fragments.favorite.ImageLikeFragment
+import com.example.imagefind.app.ui.fragments.wall.ImageWallFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

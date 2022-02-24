@@ -1,4 +1,4 @@
-package com.example.imagefind.app.ui
+package com.example.imagefind.app.ui.fragments.wall
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

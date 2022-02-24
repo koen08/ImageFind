@@ -1,4 +1,4 @@
-package com.example.imagefind.app.ui
+package com.example.imagefind.app.ui.fragments.favorite
 
 import android.util.Log
 import androidx.lifecycle.LiveData

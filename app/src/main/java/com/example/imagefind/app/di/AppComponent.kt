@@ -1,8 +1,7 @@
 package com.example.imagefind.app.di
 
-import com.example.imagefind.app.ui.MainActivity
-import com.example.imagefind.app.ui.fragments.ImageLikeFragment
-import com.example.imagefind.app.ui.fragments.ImageWallFragment
+import com.example.imagefind.app.ui.fragments.favorite.ImageLikeFragment
+import com.example.imagefind.app.ui.fragments.wall.ImageWallFragment
 import dagger.Component
 import javax.inject.Singleton
 

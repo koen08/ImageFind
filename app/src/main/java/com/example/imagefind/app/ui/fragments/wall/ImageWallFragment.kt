@@ -1,4 +1,4 @@
-package com.example.imagefind.app.ui.fragments
+package com.example.imagefind.app.ui.fragments.wall
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.R
 import com.example.imagefind.app.App
-import com.example.imagefind.app.ui.MainViewModel
-import com.example.imagefind.app.ui.ViewModelFactory
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
 import com.example.imagefind.domain.models.Image
 import javax.inject.Inject
@@ -40,7 +38,7 @@ class ImageWallFragment : Fragment() {
         viewModel.listImageLiveData.observe(viewLifecycleOwner, ::glideImageList)
         viewModel.completeAddInfoImage.observe(viewLifecycleOwner, ::showToast)
 
-        viewModel.getImageListByName("android")
+        viewModel.getImageListByName("dog")
 
         return view
     }
