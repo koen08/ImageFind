@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.R
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
+import com.example.imagefind.databinding.FragmentImageWallBinding
 import com.example.imagefind.domain.models.Image
 import javax.inject.Inject
 
@@ -19,16 +20,21 @@ class ImageWallFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     var recyclerView: RecyclerView? = null
     private lateinit var viewModel: MainViewModel
+
+    private var _binding: FragmentImageWallBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_image_wall, container, false)
+        _binding = FragmentImageWallBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        recyclerView = view.findViewById(R.id.recycleImageWall)
+        recyclerView = binding.recycleImageWall
         initRecyclerView()
 
         (activity?.application as App).appComponent.inject(this)
@@ -63,5 +69,10 @@ class ImageWallFragment : Fragment() {
     override fun onDestroy() {
         viewModel.onDestroy()
         super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

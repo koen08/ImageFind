@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.R
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
+import com.example.imagefind.databinding.FavoriteListItemBinding
+import com.example.imagefind.databinding.FragmentImageLikeBinding
 import com.example.imagefind.domain.models.ImageFavoriteList
 import javax.inject.Inject
 
@@ -21,13 +23,17 @@ class ImageLikeFragment : Fragment() {
     var recyclerView: RecyclerView? = null
     private lateinit var viewModel: FavoriteViewModel
 
+    private var _binding: FragmentImageLikeBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_image_like, container, false)
+        _binding = FragmentImageLikeBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        recyclerView = view.findViewById(R.id.recycleImageLike)
+        recyclerView = binding.recycleImageLike
         initRecyclerView()
 
         (activity?.application as App).appComponent.inject(this)
@@ -54,5 +60,10 @@ class ImageLikeFragment : Fragment() {
     private fun initRecyclerView() {
         val adapter = FavoriteListAdapter(ArrayList())
         recyclerView?.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

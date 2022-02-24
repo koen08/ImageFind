@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
+import com.example.imagefind.databinding.FavoriteListItemBinding
+import com.example.imagefind.databinding.ListImageItemBinding
 import com.example.imagefind.domain.models.Image
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -15,19 +17,20 @@ class ImageListAdapter(private val imageList: List<Image>) :
     RecyclerView.Adapter<ImageListAdapter.ViewHolder>() {
     var importantListener: ((Image) -> Unit)? = { }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.imageItem)
-        val nickNameTextView: TextView = view.findViewById(R.id.textNickName)
-        val avatarImageVew: ShapeableImageView = view.findViewById(R.id.imageAvatar)
-        val textViews: TextView = view.findViewById(R.id.textViews)
-        val textLikes: TextView = view.findViewById(R.id.textLikes)
-        val importantImageView: ImageView = view.findViewById(R.id.importantImageView)
+    class ViewHolder(listImageItemBinding: ListImageItemBinding) :
+        RecyclerView.ViewHolder(listImageItemBinding.root) {
+        val imageView: ImageView = listImageItemBinding.imageItem
+        val nickNameTextView: TextView = listImageItemBinding.textNickName
+        val avatarImageVew: ShapeableImageView = listImageItemBinding.imageAvatar
+        val textViews: TextView = listImageItemBinding.textViews
+        val textLikes: TextView = listImageItemBinding.textLikes
+        val importantImageView: ImageView = listImageItemBinding.importantImageView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_image_item, parent, false)
-        return ViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val viewBinding = ListImageItemBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(viewBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

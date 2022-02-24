@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment
 import com.example.imagefind.R
 import com.example.imagefind.app.ui.fragments.favorite.ImageLikeFragment
 import com.example.imagefind.app.ui.fragments.wall.ImageWallFragment
+import com.example.imagefind.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val bottomNavigation = binding.bottomNavigation
 
         val homeFragment = ImageWallFragment()
         val favoriteFragment = ImageLikeFragment()
