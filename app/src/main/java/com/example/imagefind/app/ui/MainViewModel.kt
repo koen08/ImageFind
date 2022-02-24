@@ -6,12 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.imagefind.data.network.models.ImageListNet
 import com.example.imagefind.data.database.models.ImageTable
-import com.example.imagefind.domain.models.ImageDto
+import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.models.ImageList
 import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
 import com.example.imagefind.domain.usecase.GetImageByNameUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
@@ -24,8 +23,8 @@ class MainViewModel @Inject constructor(
     private var dispos: Disposable? = null
     private var disAddImageId: Disposable? = null
 
-    private val listImageMutableLive = MutableLiveData<List<ImageDto>>()
-    val listImageLiveData: LiveData<List<ImageDto>> = listImageMutableLive
+    private val listImageMutableLive = MutableLiveData<List<Image>>()
+    val listImageLiveData: LiveData<List<Image>> = listImageMutableLive
 
     private val completeMutableAddInfoImage = MutableLiveData<String>()
     val completeAddInfoImage : LiveData<String> = completeMutableAddInfoImage
@@ -56,7 +55,7 @@ class MainViewModel @Inject constructor(
         val imageList = ImageList(ArrayList())
         for (imageDao in imageListNet.hits) {
             imageList.hits.add(
-                ImageDto(
+                Image(
                     imageDao.id,
                     imageDao.url,
                     imageDao.userImageURL,

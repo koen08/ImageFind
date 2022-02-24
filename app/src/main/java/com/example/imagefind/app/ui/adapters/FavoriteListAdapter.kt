@@ -7,12 +7,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
-import com.example.imagefind.domain.models.ImageDto
-import com.example.imagefind.domain.models.ImageFavoriteDto
+import com.example.imagefind.domain.models.Image
+import com.example.imagefind.domain.models.ImageFavorite
 
-class FavoriteListAdapter(private val imageList: List<ImageFavoriteDto>) :
+class FavoriteListAdapter(private val imageList: List<ImageFavorite>) :
     RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
-    var importantListener: ((ImageDto) -> Unit)? = { }
+    var importantListener: ((Image) -> Unit)? = { }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageItemGrid)

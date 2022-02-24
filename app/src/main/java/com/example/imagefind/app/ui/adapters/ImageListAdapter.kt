@@ -5,18 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
-import com.example.imagefind.data.database.ImageDao
-import com.example.imagefind.data.database.models.ImageTable
-import com.example.imagefind.domain.models.ImageDto
+import com.example.imagefind.domain.models.Image
 import com.google.android.material.imageview.ShapeableImageView
 
-class ImageListAdapter(private val imageList: List<ImageDto>) :
+class ImageListAdapter(private val imageList: List<Image>) :
     RecyclerView.Adapter<ImageListAdapter.ViewHolder>() {
-    var importantListener: ((ImageDto) -> Unit)? = { }
+    var importantListener: ((Image) -> Unit)? = { }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageItem)
@@ -36,7 +33,7 @@ class ImageListAdapter(private val imageList: List<ImageDto>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageDao = imageList[position]
         holder.nickNameTextView.text = imageDao.userName
-        val textLikes = imageDao.likes.toString() + " likes"
+        val textLikes = imageDao.likes.toString() + " like"
         val textViews = imageDao.view.toString() + " views"
         holder.textLikes.text = textLikes
         holder.textViews.text = textViews

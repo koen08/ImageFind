@@ -7,18 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.R
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.FavoriteViewModel
 import com.example.imagefind.app.ui.FavoriteViewModelFactory
-import com.example.imagefind.app.ui.MainViewModel
-import com.example.imagefind.app.ui.ViewModelFactory
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
-import com.example.imagefind.app.ui.adapters.ImageListAdapter
-import com.example.imagefind.domain.models.ImageDto
-import com.example.imagefind.domain.models.ImageFavoriteDtoList
+import com.example.imagefind.domain.models.ImageFavoriteList
 import javax.inject.Inject
 
 class ImageLikeFragment : Fragment() {
@@ -50,8 +45,8 @@ class ImageLikeFragment : Fragment() {
         return view
     }
 
-    private fun glideImageList(imageFavoriteDtoList: ImageFavoriteDtoList) {
-        val adapter = FavoriteListAdapter(imageFavoriteDtoList.hits)
+    private fun glideImageList(imageFavoriteList: ImageFavoriteList) {
+        val adapter = FavoriteListAdapter(imageFavoriteList.hits)
         recyclerView?.adapter = adapter
         /*adapter.importantListener = {
             viewModel.addImageIdToDB(it.id, it.url)

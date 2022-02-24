@@ -14,7 +14,7 @@ import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.MainViewModel
 import com.example.imagefind.app.ui.ViewModelFactory
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
-import com.example.imagefind.domain.models.ImageDto
+import com.example.imagefind.domain.models.Image
 import javax.inject.Inject
 
 class ImageWallFragment : Fragment() {
@@ -49,7 +49,7 @@ class ImageWallFragment : Fragment() {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
-    private fun glideImageList(imageList: List<ImageDto>) {
+    private fun glideImageList(imageList: List<Image>) {
         val adapter = ImageListAdapter(imageList)
         recyclerView?.adapter = adapter
         adapter.importantListener = {

@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.imagefind.data.database.models.ImageTable
-import com.example.imagefind.domain.models.ImageFavoriteDto
-import com.example.imagefind.domain.models.ImageFavoriteDtoList
+import com.example.imagefind.domain.models.ImageFavorite
+import com.example.imagefind.domain.models.ImageFavoriteList
 import com.example.imagefind.domain.usecase.GetImageFavoriteRoomUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -17,8 +17,8 @@ class FavoriteViewModel @Inject constructor(
     private val getImageFavoriteRoomUseCase: GetImageFavoriteRoomUseCase
 ) : ViewModel() {
     private var dispos: Disposable? = null
-    private val listImageMutableLive = MutableLiveData<ImageFavoriteDtoList>()
-    val listImageLiveData: LiveData<ImageFavoriteDtoList> = listImageMutableLive
+    private val listImageMutableLive = MutableLiveData<ImageFavoriteList>()
+    val listImageLiveData: LiveData<ImageFavoriteList> = listImageMutableLive
 
     fun getImageAll() {
         dispos = getImageFavoriteRoomUseCase.getAll().subscribeOn(Schedulers.io())
@@ -30,10 +30,10 @@ class FavoriteViewModel @Inject constructor(
             })
     }
 
-    private fun convertImageTableToImageList(imageTableList: List<ImageTable>): ImageFavoriteDtoList {
-        val imageList = ImageFavoriteDtoList(ArrayList())
+    private fun convertImageTableToImageList(imageTableList: List<ImageTable>): ImageFavoriteList {
+        val imageList = ImageFavoriteList(ArrayList())
         for (imageTable in imageTableList) {
-            imageList.hits.add(ImageFavoriteDto(id = imageTable.imageId, url = imageTable.imageUrl))
+            imageList.hits.add(ImageFavorite(id = imageTable.imageId, url = imageTable.imageUrl))
         }
         return imageList
     }

@@ -1,6 +1,6 @@
 package com.example.imagefind.domain.models
 
-data class ImageFavoriteDto(
+data class ImageFavorite(
     val id: Long,
     val url: String
 )

@@ -1,6 +1,6 @@
 package com.example.imagefind.domain.models
 
-data class ImageDto(
+data class Image(
     val id: Long,
     val url: String,
     val avatar: String,

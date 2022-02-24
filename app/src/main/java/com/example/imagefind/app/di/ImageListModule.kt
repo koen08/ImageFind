@@ -6,10 +6,10 @@ import com.example.imagefind.data.database.ImageDaoDatabase
 import com.example.imagefind.data.network.ImageListNetwork
 import com.example.imagefind.data.network.ImageListNetworkImpl
 import com.example.imagefind.data.service.ImageDaoImpl
-import com.example.imagefind.data.service.ImageServiceImpl
-import com.example.imagefind.data.service.ImageServiceRoomImpl
-import com.example.imagefind.domain.service.ImageService
-import com.example.imagefind.domain.service.ImageServiceRoom
+import com.example.imagefind.data.service.ImageRepositoryImpl
+import com.example.imagefind.data.service.ImageRoomRepositoryImpl
+import com.example.imagefind.domain.service.ImageRepository
+import com.example.imagefind.domain.service.ImageRoomRepository
 import dagger.Module
 import dagger.Provides
 
@@ -20,8 +20,8 @@ class ImageListModule {
         ImageListNetworkImpl(imageApi)
 
     @Provides
-    fun provideImageService(imageListNetwork: ImageListNetwork): ImageService {
-        return ImageServiceImpl(imageListNetwork)
+    fun provideImageService(imageListNetwork: ImageListNetwork): ImageRepository {
+        return ImageRepositoryImpl(imageListNetwork)
     }
 
     @Provides
@@ -30,7 +30,7 @@ class ImageListModule {
     }
 
     @Provides
-    fun provideImageServiceRoom(imageDao: ImageDao) : ImageServiceRoom {
-        return ImageServiceRoomImpl(imageDao)
+    fun provideImageServiceRoom(imageDao: ImageDao) : ImageRoomRepository {
+        return ImageRoomRepositoryImpl(imageDao)
     }
 }
