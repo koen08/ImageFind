@@ -34,8 +34,7 @@ class MainViewModel @Inject constructor(
         dispos = result.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                val imageList = networkDaoToImageDomain(it)
-                listImageMutableLive.value = imageList.hits
+                listImageMutableLive.value = it
             }, {
                 Log.e("AAA", it.localizedMessage!!)
             })

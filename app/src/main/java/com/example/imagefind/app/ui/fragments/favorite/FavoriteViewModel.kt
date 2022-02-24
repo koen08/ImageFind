@@ -23,19 +23,10 @@ class FavoriteViewModel @Inject constructor(
     fun getImageAll() {
         dispos = getImageFavoriteRoomUseCase.getAll().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                val imageListFavoriteDtoList = convertImageTableToImageList(it)
-                listImageMutableLive.value = imageListFavoriteDtoList
+                listImageMutableLive.value = it
             }, {
                 Log.e("AAA", it.localizedMessage!!)
             })
-    }
-
-    private fun convertImageTableToImageList(imageTableList: List<ImageTable>): ImageFavoriteList {
-        val imageList = ImageFavoriteList(ArrayList())
-        for (imageTable in imageTableList) {
-            imageList.hits.add(ImageFavorite(id = imageTable.imageId, url = imageTable.imageUrl))
-        }
-        return imageList
     }
 
     fun onDestroy() {
