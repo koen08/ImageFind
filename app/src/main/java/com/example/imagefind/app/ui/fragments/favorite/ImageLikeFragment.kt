@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
 import com.example.imagefind.databinding.FavoriteListItemBinding
 import com.example.imagefind.databinding.FragmentImageLikeBinding
+import com.example.imagefind.domain.models.ImageFavorite
 import com.example.imagefind.domain.models.ImageFavoriteList
 import javax.inject.Inject
 
@@ -50,15 +52,22 @@ class ImageLikeFragment : Fragment() {
     }
 
     private fun glideImageList(imageFavoriteList: ImageFavoriteList) {
-        val adapter = FavoriteListAdapter(imageFavoriteList.hits)
+        val adapter = FavoriteListAdapter()
+        adapter.imageList = imageFavoriteList.hits
         recyclerView?.adapter = adapter
-        /*adapter.importantListener = {
-            viewModel.addImageIdToDB(it.id, it.url)
-        }*/
+        adapter.importantListener = {
+            val newList = ArrayList(imageFavoriteList.hits)
+            newList.remove(it)
+            adapter.imageList = newList
+        }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
     private fun initRecyclerView() {
-        val adapter = FavoriteListAdapter(ArrayList())
+        val adapter = FavoriteListAdapter()
         recyclerView?.adapter = adapter
     }
 

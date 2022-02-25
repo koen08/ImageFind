@@ -4,16 +4,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
+import com.example.imagefind.data.database.ImageDao
 import com.example.imagefind.databinding.FavoriteListItemBinding
 import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.models.ImageFavorite
 
-class FavoriteListAdapter(private val imageList: List<ImageFavorite>) :
+class FavoriteListAdapter() :
     RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
-    var importantListener: ((Image) -> Unit)? = { }
+    var imageList: List<ImageFavorite> = emptyList()
+        set (newList){
+            val diffCallBack = FavoriteDiffCallBack(field, newList)
+            val diffResult =  DiffUtil.calculateDiff(diffCallBack)
+            diffResult.dispatchUpdatesTo(this)
+            field = newList
+        }
+    var importantListener: ((ImageFavorite) -> Unit)? = { }
+
 
     class ViewHolder(favoriteListItemBinding: FavoriteListItemBinding) :
         RecyclerView.ViewHolder(favoriteListItemBinding.root) {
@@ -27,8 +38,12 @@ class FavoriteListAdapter(private val imageList: List<ImageFavorite>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageDao = imageList[position]
-        Glide.with(holder.imageView).load(imageDao.url).into(holder.imageView)
+        val imageFavorite = imageList[position]
+        Glide.with(holder.imageView).load(imageFavorite.url).into(holder.imageView)
+        holder.imageView.setOnLongClickListener {
+            importantListener?.invoke(imageFavorite)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
