@@ -4,8 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.rxjava3.cachedIn
 import com.example.imagefind.data.network.models.ImageListNet
 import com.example.imagefind.data.database.models.ImageTable
+import com.example.imagefind.data.network.models.ImageNet
 import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.models.ImageList
 import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
@@ -23,21 +27,18 @@ class MainViewModel @Inject constructor(
     private var dispos: Disposable? = null
     private var disAddImageId: Disposable? = null
 
-    private val listImageMutableLive = MutableLiveData<List<Image>>()
-    val listImageLiveData: LiveData<List<Image>> = listImageMutableLive
+    private val listImageMutableLive = MutableLiveData<PagingData<ImageNet>>()
+    val listImageLiveData: LiveData<PagingData<ImageNet>> = listImageMutableLive
 
     private val completeMutableAddInfoImage = MutableLiveData<String>()
-    val completeAddInfoImage : LiveData<String> = completeMutableAddInfoImage
+    val completeAddInfoImage: LiveData<String> = completeMutableAddInfoImage
 
     fun getImageListByName(name: String) {
         val result = getImageByNameUseCase.get(name)
-        dispos = result.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+        dispos = result.cachedIn(viewModelScope)
+            .subscribe {
                 listImageMutableLive.value = it
-            }, {
-                Log.e("AAA", it.localizedMessage!!)
-            })
+            }
     }
 
     fun addImageIdToDB(imageId: Long, imageUrl: String) {
@@ -48,23 +49,6 @@ class MainViewModel @Inject constructor(
             }, {
                 Log.e("AAA", it.localizedMessage!!)
             })
-    }
-
-    private fun networkDaoToImageDomain(imageListNet: ImageListNet): ImageList {
-        val imageList = ImageList(ArrayList())
-        for (imageDao in imageListNet.hits) {
-            imageList.hits.add(
-                Image(
-                    imageDao.id,
-                    imageDao.url,
-                    imageDao.userImageURL,
-                    imageDao.userName,
-                    imageDao.likes,
-                    imageDao.views
-                )
-            )
-        }
-        return imageList
     }
 
     fun onDestroy() {

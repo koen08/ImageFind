@@ -10,6 +10,7 @@ interface ImageApi {
     fun getImageList(
         @Query("key") key: String,
         @Query("q") param: String,
-        @Query("orientation") orientation: String
+        @Query("orientation") orientation: String,
+        @Query("page") page: Int
     ): Single<ImageListNet>
 }

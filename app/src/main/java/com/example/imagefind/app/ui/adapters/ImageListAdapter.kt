@@ -5,17 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
+import com.example.imagefind.data.network.models.ImageNet
 import com.example.imagefind.databinding.FavoriteListItemBinding
 import com.example.imagefind.databinding.ListImageItemBinding
 import com.example.imagefind.domain.models.Image
 import com.google.android.material.imageview.ShapeableImageView
 
-class ImageListAdapter(private val imageList: List<Image>) :
-    RecyclerView.Adapter<ImageListAdapter.ViewHolder>() {
-    var importantListener: ((Image) -> Unit)? = { }
+class ImageListAdapter :
+    PagingDataAdapter<ImageNet, ImageListAdapter.ViewHolder>(ImageListDiffUtils()) {
+    var importantListener: ((ImageNet) -> Unit)? = { }
 
     class ViewHolder(listImageItemBinding: ListImageItemBinding) :
         RecyclerView.ViewHolder(listImageItemBinding.root) {
@@ -34,21 +36,17 @@ class ImageListAdapter(private val imageList: List<Image>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageDao = imageList[position]
-        holder.nickNameTextView.text = imageDao.userName
+        val imageDao = getItem(position)
+        holder.nickNameTextView.text = imageDao!!.userName
         val textLikes = imageDao.likes.toString() + " like"
-        val textViews = imageDao.view.toString() + " views"
+        val textViews = imageDao.views.toString() + " views"
         holder.textLikes.text = textLikes
         holder.textViews.text = textViews
-        Glide.with(holder.avatarImageVew).load(imageDao.avatar).into(holder.avatarImageVew)
+        Glide.with(holder.avatarImageVew).load(imageDao.userImageURL).into(holder.avatarImageVew)
         Glide.with(holder.imageView).load(imageDao.url).into(holder.imageView)
 
         holder.importantImageView.setOnClickListener {
             importantListener?.invoke(imageDao)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return imageList.size
     }
 }

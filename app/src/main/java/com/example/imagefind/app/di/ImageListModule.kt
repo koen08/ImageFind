@@ -5,6 +5,7 @@ import com.example.imagefind.data.database.ImageDao
 import com.example.imagefind.data.database.ImageDaoDatabase
 import com.example.imagefind.data.network.ImageListNetwork
 import com.example.imagefind.data.network.ImageListNetworkImpl
+import com.example.imagefind.data.network.ImageListPagingSource
 import com.example.imagefind.data.service.ImageDaoImpl
 import com.example.imagefind.data.service.ImageRepositoryImpl
 import com.example.imagefind.data.service.ImageRoomRepositoryImpl
@@ -20,8 +21,8 @@ class ImageListModule {
         ImageListNetworkImpl(imageApi)
 
     @Provides
-    fun provideImageService(imageListNetwork: ImageListNetwork): ImageRepository {
-        return ImageRepositoryImpl(imageListNetwork)
+    fun provideImageService(imageListPagingSource: ImageListPagingSource.Factory): ImageRepository {
+        return ImageRepositoryImpl(imageListPagingSource)
     }
 
     @Provides
