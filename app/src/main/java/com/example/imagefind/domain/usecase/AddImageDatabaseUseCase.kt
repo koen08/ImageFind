@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class AddImageDatabaseUseCase @Inject constructor(private val imageRoomRepository: ImageRoomRepository) {
-    fun add(imageTable: ImageTable) : Completable {
+    fun add(imageTable: ImageTable): Completable {
         return imageRoomRepository.insert(imageTable)
     }
 }

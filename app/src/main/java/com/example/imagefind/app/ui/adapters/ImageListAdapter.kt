@@ -1,18 +1,14 @@
 package com.example.imagefind.app.ui.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.imagefind.R
 import com.example.imagefind.data.network.models.ImageNet
-import com.example.imagefind.databinding.FavoriteListItemBinding
 import com.example.imagefind.databinding.ListImageItemBinding
-import com.example.imagefind.domain.models.Image
 import com.google.android.material.imageview.ShapeableImageView
 
 class ImageListAdapter :

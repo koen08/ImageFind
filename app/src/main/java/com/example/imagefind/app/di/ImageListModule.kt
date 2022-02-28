@@ -26,12 +26,12 @@ class ImageListModule {
     }
 
     @Provides
-    fun provideImageDao(imageDaoDatabase: ImageDaoDatabase) : ImageDao {
+    fun provideImageDao(imageDaoDatabase: ImageDaoDatabase): ImageDao {
         return ImageDaoImpl(imageDaoDatabase)
     }
 
     @Provides
-    fun provideImageServiceRoom(imageDao: ImageDao) : ImageRoomRepository {
+    fun provideImageServiceRoom(imageDao: ImageDao): ImageRoomRepository {
         return ImageRoomRepositoryImpl(imageDao)
     }
 }

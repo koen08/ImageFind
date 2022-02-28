@@ -7,11 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
-import com.example.imagefind.data.network.models.ImageListNet
 import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.data.network.models.ImageNet
-import com.example.imagefind.domain.models.Image
-import com.example.imagefind.domain.models.ImageList
 import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
 import com.example.imagefind.domain.usecase.GetImageByNameUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

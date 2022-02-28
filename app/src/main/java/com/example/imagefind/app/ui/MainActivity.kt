@@ -7,7 +7,6 @@ import com.example.imagefind.R
 import com.example.imagefind.app.ui.fragments.favorite.ImageLikeFragment
 import com.example.imagefind.app.ui.fragments.wall.ImageWallFragment
 import com.example.imagefind.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val favoriteFragment = ImageLikeFragment()
         makeCurrentFragment(homeFragment)
         bottomNavigation.setOnItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.menu_home -> makeCurrentFragment(homeFragment)
                 R.id.menu_favorite -> makeCurrentFragment(favoriteFragment)
             }
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private fun makeCurrentFragment(fragment: Fragment) =
         //Что за apply
         supportFragmentManager.beginTransaction().apply {
-        replace(R.id.frame, fragment)
-        commit()
-    }
+            replace(R.id.frame, fragment)
+            commit()
+        }
 }

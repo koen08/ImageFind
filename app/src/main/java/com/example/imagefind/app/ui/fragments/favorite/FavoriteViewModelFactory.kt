@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class FavoriteViewModelFactory @Inject constructor(
     private val getImageFavoriteRoomUseCase: GetImageFavoriteRoomUseCase
-) :  ViewModelProvider.Factory  {
+) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         FavoriteViewModel(getImageFavoriteRoomUseCase) as T

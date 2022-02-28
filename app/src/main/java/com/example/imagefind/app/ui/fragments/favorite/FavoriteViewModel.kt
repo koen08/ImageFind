@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.imagefind.data.database.models.ImageTable
-import com.example.imagefind.domain.models.ImageFavorite
 import com.example.imagefind.domain.models.ImageFavoriteList
 import com.example.imagefind.domain.usecase.GetImageFavoriteRoomUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

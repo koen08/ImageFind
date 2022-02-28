@@ -6,17 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.imagefind.R
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
 import com.example.imagefind.data.network.models.ImageNet
 import com.example.imagefind.databinding.FragmentImageWallBinding
-import com.example.imagefind.domain.models.Image
 import javax.inject.Inject
 
 class ImageWallFragment : Fragment() {

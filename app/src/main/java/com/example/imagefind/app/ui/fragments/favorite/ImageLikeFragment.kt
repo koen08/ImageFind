@@ -1,20 +1,17 @@
 package com.example.imagefind.app.ui.fragments.favorite
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.imagefind.R
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
-import com.example.imagefind.databinding.FavoriteListItemBinding
 import com.example.imagefind.databinding.FragmentImageLikeBinding
-import com.example.imagefind.domain.models.ImageFavorite
 import com.example.imagefind.domain.models.ImageFavoriteList
 import javax.inject.Inject
 

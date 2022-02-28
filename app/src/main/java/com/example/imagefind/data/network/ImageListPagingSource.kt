@@ -8,7 +8,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
 class ImageListPagingSource @AssistedInject constructor(
     private val imageListNetwork: ImageListNetwork,
@@ -32,6 +31,7 @@ class ImageListPagingSource @AssistedInject constructor(
             )
         }
     }
+
     @AssistedFactory
     interface Factory {
 
