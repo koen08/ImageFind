@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
 import com.example.imagefind.data.database.models.ImageTable
-import com.example.imagefind.data.network.models.ImageNet
+import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
 import com.example.imagefind.domain.usecase.GetImageByNameUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -24,8 +24,8 @@ class MainViewModel @Inject constructor(
     private var dispos: Disposable? = null
     private var disAddImageId: Disposable? = null
 
-    private val listImageMutableLive = MutableLiveData<PagingData<ImageNet>>()
-    val listImageLiveData: LiveData<PagingData<ImageNet>> = listImageMutableLive
+    private val listImageMutableLive = MutableLiveData<PagingData<Image>>()
+    val listImageLiveData: LiveData<PagingData<Image>> = listImageMutableLive
 
     private val completeMutableAddInfoImage = MutableLiveData<String>()
     val completeAddInfoImage: LiveData<String> = completeMutableAddInfoImage

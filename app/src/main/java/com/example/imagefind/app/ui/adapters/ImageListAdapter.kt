@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.imagefind.data.network.models.ImageNet
 import com.example.imagefind.databinding.ListImageItemBinding
+import com.example.imagefind.domain.models.Image
 import com.google.android.material.imageview.ShapeableImageView
 
 class ImageListAdapter :
-    PagingDataAdapter<ImageNet, ImageListAdapter.ViewHolder>(ImageListDiffUtils()) {
-    var importantListener: ((ImageNet) -> Unit)? = { }
+    PagingDataAdapter<Image, ImageListAdapter.ViewHolder>(ImageListDiffUtils()) {
+    var importantListener: ((Image) -> Unit)? = { }
 
     class ViewHolder(listImageItemBinding: ListImageItemBinding) :
         RecyclerView.ViewHolder(listImageItemBinding.root) {
@@ -35,10 +35,10 @@ class ImageListAdapter :
         val imageDao = getItem(position)
         holder.nickNameTextView.text = imageDao!!.userName
         val textLikes = imageDao.likes.toString() + " like"
-        val textViews = imageDao.views.toString() + " views"
+        val textViews = imageDao.view.toString() + " views"
         holder.textLikes.text = textLikes
         holder.textViews.text = textViews
-        Glide.with(holder.avatarImageVew).load(imageDao.userImageURL).into(holder.avatarImageVew)
+        Glide.with(holder.avatarImageVew).load(imageDao.avatar).into(holder.avatarImageVew)
         Glide.with(holder.imageView).load(imageDao.url).into(holder.imageView)
 
         holder.importantImageView.setOnClickListener {

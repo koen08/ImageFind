@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
-import com.example.imagefind.data.network.models.ImageNet
 import com.example.imagefind.databinding.FragmentImageWallBinding
+import com.example.imagefind.domain.models.Image
 import javax.inject.Inject
 
 class ImageWallFragment : Fragment() {
@@ -53,7 +53,7 @@ class ImageWallFragment : Fragment() {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
-    private fun glideImageList(pagingData: PagingData<ImageNet>) {
+    private fun glideImageList(pagingData: PagingData<Image>) {
         val adapter = ImageListAdapter()
         adapter.submitData(lifecycle, pagingData)
         recyclerView?.adapter = adapter
