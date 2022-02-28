@@ -64,6 +64,11 @@ class ImageLikeFragment : Fragment() {
         adapter.imageList = imageFavoriteList.hits
     }
 
+    override fun onDestroy() {
+        viewModel.onDestroy()
+        super.onDestroy()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
