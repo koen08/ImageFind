@@ -35,36 +35,37 @@ class ImageWallFragment : Fragment() {
         val view = binding.root
 
         recyclerView = binding.recycleImageWall
-        initRecyclerView()
+        val adapter = ImageListAdapter()
+        recyclerView?.adapter = adapter
 
         (activity?.application as App).appComponent.inject(this)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel.listImageLiveData.observe(viewLifecycleOwner, ::glideImageList)
+        viewModel.listImageLiveData.observe(viewLifecycleOwner, {
+            glideImageList(it, adapter)
+        })
         viewModel.completeAddInfoImage.observe(viewLifecycleOwner, ::showToast)
+
+        listenerAddImage(adapter)
 
         viewModel.getImageListByName("dog")
 
         return view
     }
 
-    private fun showToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun glideImageList(pagingData: PagingData<Image>) {
-        val adapter = ImageListAdapter()
-        adapter.submitData(lifecycle, pagingData)
-        recyclerView?.adapter = adapter
+    private fun listenerAddImage(adapter: ImageListAdapter) {
         adapter.importantListener = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
     }
 
-    private fun initRecyclerView() {
-        val adapter = ImageListAdapter()
-        recyclerView?.adapter = adapter
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun glideImageList(pagingData: PagingData<Image>, adapter: ImageListAdapter) {
+        adapter.submitData(lifecycle, pagingData)
     }
 
     override fun onDestroy() {

@@ -11,8 +11,8 @@ class ImageDaoImpl(private val imageDaoDataBase: ImageDaoDatabase) : ImageDao {
         return imageDaoDataBase.insert(imageTable)
     }
 
-    override fun delete(imageTable: ImageTable) {
-        TODO("Not yet implemented")
+    override fun delete(imageTable: ImageTable): Completable {
+        return imageDaoDataBase.delete(imageTable)
     }
 
     override fun getAll(): Single<List<ImageTable>> {

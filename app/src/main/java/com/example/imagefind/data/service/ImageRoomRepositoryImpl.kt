@@ -23,4 +23,8 @@ class ImageRoomRepositoryImpl @Inject constructor(val imageDao: ImageDao) : Imag
             )
         }
     }
+
+    override fun delete(imageTable: ImageTable): Completable {
+        return imageDao.delete(imageTable)
+    }
 }

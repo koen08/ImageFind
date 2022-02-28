@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
+import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.databinding.FragmentImageLikeBinding
 import com.example.imagefind.domain.models.ImageFavoriteList
 import javax.inject.Inject
@@ -33,7 +33,8 @@ class ImageLikeFragment : Fragment() {
         val view = binding.root
 
         recyclerView = binding.recycleImageLike
-        initRecyclerView()
+        val adapter = FavoriteListAdapter()
+        recyclerView?.adapter = adapter
 
         (activity?.application as App).appComponent.inject(this)
         recyclerView?.layoutManager = GridLayoutManager(activity, 2)
@@ -41,31 +42,26 @@ class ImageLikeFragment : Fragment() {
         viewModel = ViewModelProvider(this, favoriteViewModelFactory)
             .get(FavoriteViewModel::class.java)
 
-        viewModel.listImageLiveData.observe(viewLifecycleOwner, ::glideImageList)
+        viewModel.listImageLiveData.observe(viewLifecycleOwner, {
+            glideImageList(it, adapter)
+        })
+
+        listenerDeleteImage(adapter)
 
         viewModel.getImageAll()
 
         return view
     }
 
-    private fun glideImageList(imageFavoriteList: ImageFavoriteList) {
-        val adapter = FavoriteListAdapter()
-        adapter.imageList = imageFavoriteList.hits
-        recyclerView?.adapter = adapter
+    private fun listenerDeleteImage(adapter: FavoriteListAdapter) {
         adapter.importantListener = {
-            val newList = ArrayList(imageFavoriteList.hits)
-            newList.remove(it)
-            adapter.imageList = newList
+            val imageTable = ImageTable(it.id, it.url)
+            viewModel.delete(imageTable)
         }
     }
 
-    private fun showToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun initRecyclerView() {
-        val adapter = FavoriteListAdapter()
-        recyclerView?.adapter = adapter
+    private fun glideImageList(imageFavoriteList: ImageFavoriteList, adapter: FavoriteListAdapter) {
+        adapter.imageList = imageFavoriteList.hits
     }
 
     override fun onDestroyView() {
