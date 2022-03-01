@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
+import com.example.imagefind.app.ui.fragments.AbstractViewModel
 import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
@@ -21,9 +22,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getImageByNameUseCase: GetImageByNameUseCase,
     private val addImageDatabaseUseCase: AddImageDatabaseUseCase,
-) : ViewModel() {
-    private var compositeDisposable = CompositeDisposable()
-
+) : AbstractViewModel() {
     private val listImageMutableLive = MutableLiveData<PagingData<Image>>()
     val listImageLiveData: LiveData<PagingData<Image>> = listImageMutableLive
 
@@ -49,9 +48,5 @@ class MainViewModel @Inject constructor(
                 Log.e("AAA", it.localizedMessage!!)
             })
         compositeDisposable.add(disposable)
-    }
-
-    fun onDestroy() {
-        compositeDisposable.dispose()
     }
 }

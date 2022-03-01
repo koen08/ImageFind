@@ -14,6 +14,7 @@ import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
 import com.example.imagefind.databinding.FragmentImageWallBinding
 import com.example.imagefind.domain.models.Image
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class ImageWallFragment : Fragment() {
@@ -27,10 +28,11 @@ class ImageWallFragment : Fragment() {
     private var _binding: FragmentImageWallBinding? = null
     private val binding get() = _binding!!
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentImageWallBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -49,7 +51,7 @@ class ImageWallFragment : Fragment() {
 
         listenerAddImage(adapter)
 
-        viewModel.getImageListByName("dog")
+        viewModel.getImageListByName("microsoft")
 
         return view
     }

@@ -1,48 +1,58 @@
 package com.example.imagefind.app.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.example.imagefind.R
 import com.example.imagefind.databinding.ListImageItemBinding
 import com.example.imagefind.domain.models.Image
-import com.google.android.material.imageview.ShapeableImageView
 
-class ImageListAdapter :
+class ImageListAdapter() :
     PagingDataAdapter<Image, ImageListAdapter.ViewHolder>(ImageListDiffUtils()) {
     var importantListener: ((Image) -> Unit)? = { }
 
-    class ViewHolder(listImageItemBinding: ListImageItemBinding) :
-        RecyclerView.ViewHolder(listImageItemBinding.root) {
-        val imageView: ImageView = listImageItemBinding.imageItem
-        val nickNameTextView: TextView = listImageItemBinding.textNickName
-        val avatarImageVew: ShapeableImageView = listImageItemBinding.imageAvatar
-        val textViews: TextView = listImageItemBinding.textViews
-        val textLikes: TextView = listImageItemBinding.textLikes
-        val importantImageView: ImageView = listImageItemBinding.importantImageView
+    class ViewHolder(itemView: View) :
+        AbstractViewHolder<Image>(itemView), ListenerClick {
+        private val bind by viewBinding(ListImageItemBinding::bind)
+
+        override fun bind(anyObject: Image) {
+            with(bind) {
+                this.textNickName.text = anyObject.userName
+                val textLikes = anyObject.likes.toString() + " like"
+                val textViews = anyObject.view.toString() + " views"
+                this.textLikes.text = textLikes
+                this.textViews.text = textViews
+                Glide.with(imageAvatar).load(anyObject.avatar).into(imageAvatar)
+                Glide.with(imageItem).load(anyObject.url).into(imageItem)
+            }
+        }
+
+        override fun onClick(action: () -> Unit, baseActionListener: BaseActionListener) {
+            with(bind) {
+                if (baseActionListener == BaseActionListener.ADD) {
+                    importantImageView.setOnClickListener {
+                        action()
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val viewBinding = ListImageItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(viewBinding)
+        return ViewHolder(layoutInflater.inflate(R.layout.list_image_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageDao = getItem(position)
-        holder.nickNameTextView.text = imageDao!!.userName
-        val textLikes = imageDao.likes.toString() + " like"
-        val textViews = imageDao.view.toString() + " views"
-        holder.textLikes.text = textLikes
-        holder.textViews.text = textViews
-        Glide.with(holder.avatarImageVew).load(imageDao.avatar).into(holder.avatarImageVew)
-        Glide.with(holder.imageView).load(imageDao.url).into(holder.imageView)
+        val item = getItem(position)
+        item?.let { holder.bind(it) }
+        holder.onClick({ addFavorite(item!!) }, BaseActionListener.ADD)
+    }
 
-        holder.importantImageView.setOnClickListener {
-            importantListener?.invoke(imageDao)
-        }
+    private fun addFavorite(image: Image) {
+        image.let { importantListener?.invoke(it) }
     }
 }

@@ -30,9 +30,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeCurrentFragment(fragment: Fragment) =
-        //Что за apply
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frame, fragment)
-            commit()
-        }
+        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
+
 }
