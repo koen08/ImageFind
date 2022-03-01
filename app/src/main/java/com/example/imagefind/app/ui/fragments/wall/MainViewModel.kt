@@ -3,7 +3,6 @@ package com.example.imagefind.app.ui.fragments.wall
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
@@ -13,8 +12,6 @@ import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
 import com.example.imagefind.domain.usecase.GetImageByNameUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
