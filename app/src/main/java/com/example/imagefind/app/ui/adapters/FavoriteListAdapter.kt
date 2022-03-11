@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
+import com.example.imagefind.app.ui.adapters.listeners.AbstractListener
+import com.example.imagefind.app.ui.adapters.listeners.FavoriteListener
+import com.example.imagefind.app.ui.adapters.listeners.ListenerClick
 import com.example.imagefind.databinding.FavoriteListItemBinding
 import com.example.imagefind.domain.models.ImageFavorite
+import kotlin.math.abs
 
 class FavoriteListAdapter() :
     RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
@@ -20,27 +24,28 @@ class FavoriteListAdapter() :
             diffResult.dispatchUpdatesTo(this)
             field = newList
         }
-    var importantListener: ((ImageFavorite) -> Unit)? = { }
+    var favoriteListener: FavoriteListener = FavoriteListener()
 
 
     class ViewHolder(itemView: View) :
-        AbstractViewHolder<ImageFavorite>(itemView), ListenerClick {
-        private val bind by viewBinding(FavoriteListItemBinding::bind)
+        AbstractViewHolder<ImageFavorite>(itemView), ListenerClick<ImageFavorite> {
+        private val binding by viewBinding(FavoriteListItemBinding::bind)
 
         override fun bind(anyObject: ImageFavorite) {
-            with(bind) {
+            with(binding) {
                 Glide.with(imageItemGrid).load(anyObject.url).into(imageItemGrid)
             }
 
         }
 
-        override fun onClick(action: () -> Unit, baseActionListener: BaseActionListener) {
-            with(bind) {
-                if (baseActionListener == BaseActionListener.DELETE) {
-                    imageItemGrid.setOnLongClickListener {
-                        action()
-                        true
-                    }
+        override fun onClick(
+            item: ImageFavorite,
+            abstractListener: AbstractListener<ImageFavorite>
+        ) {
+            with(binding) {
+                imageItemGrid.setOnLongClickListener {
+                    (abstractListener as FavoriteListener).invokeDeleteImageListener(item)
+                    true
                 }
             }
         }
@@ -54,10 +59,8 @@ class FavoriteListAdapter() :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageFavorite = imageList[position]
-        imageFavorite?.let { holder.bind(it) }
-        holder.onClick({
-            importantListener?.invoke(imageFavorite)
-        }, BaseActionListener.DELETE)
+        imageFavorite.let { holder.bind(it) }
+        holder.onClick(imageFavorite, favoriteListener)
     }
 
     override fun getItemCount(): Int {

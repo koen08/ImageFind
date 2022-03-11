@@ -13,7 +13,6 @@ import com.example.imagefind.domain.usecase.AddImageDatabaseUseCase
 import com.example.imagefind.domain.usecase.GetImageByNameUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -26,13 +25,14 @@ class MainViewModel @Inject constructor(
     private val completeMutableAddInfoImage = MutableLiveData<String>()
     val completeAddInfoImage: LiveData<String> = completeMutableAddInfoImage
 
-    @ExperimentalCoroutinesApi
     fun getImageListByName(name: String) {
         val result = getImageByNameUseCase.get(name)
         val disposable = result.cachedIn(viewModelScope)
-            .subscribe {
+            .subscribe({
                 listImageMutableLive.value = it
-            }
+            }, {
+                Log.e("Error", it.localizedMessage!!)
+            })
         compositeDisposable.add(disposable)
     }
 
@@ -42,7 +42,7 @@ class MainViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 completeMutableAddInfoImage.value = "Image added to favorites"
             }, {
-                Log.e("AAA", it.localizedMessage!!)
+                Log.e("Error", it.localizedMessage!!)
             })
         compositeDisposable.add(disposable)
     }

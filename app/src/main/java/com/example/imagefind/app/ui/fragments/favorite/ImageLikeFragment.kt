@@ -55,7 +55,7 @@ class ImageLikeFragment : Fragment() {
     }
 
     private fun listenerDeleteImage(adapter: FavoriteListAdapter) {
-        adapter.importantListener = {
+        adapter.favoriteListener.deleteListener = {
             val imageTable = ImageTable(it.id, it.url)
             viewModel.delete(imageTable)
         }

@@ -57,7 +57,7 @@ class ImageWallFragment : Fragment() {
     }
 
     private fun listenerAddImage(adapter: ImageListAdapter) {
-        adapter.importantListener = {
+        adapter.imageListener.addFavoriteImage = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
     }

@@ -7,19 +7,24 @@ import androidx.paging.PagingDataAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
+import com.example.imagefind.app.ui.adapters.listeners.AbstractListener
+import com.example.imagefind.app.ui.adapters.listeners.ImageListener
+import com.example.imagefind.app.ui.adapters.listeners.ImageListenerContract
+import com.example.imagefind.app.ui.adapters.listeners.ListenerClick
 import com.example.imagefind.databinding.ListImageItemBinding
 import com.example.imagefind.domain.models.Image
 
-class ImageListAdapter() :
+class ImageListAdapter :
     PagingDataAdapter<Image, ImageListAdapter.ViewHolder>(ImageListDiffUtils()) {
-    var importantListener: ((Image) -> Unit)? = { }
+
+    val imageListener: ImageListener = ImageListener()
 
     class ViewHolder(itemView: View) :
-        AbstractViewHolder<Image>(itemView), ListenerClick {
-        private val bind by viewBinding(ListImageItemBinding::bind)
+        AbstractViewHolder<Image>(itemView), ListenerClick<Image> {
+        private val binding by viewBinding(ListImageItemBinding::bind)
 
         override fun bind(anyObject: Image) {
-            with(bind) {
+            with(binding) {
                 this.textNickName.text = anyObject.userName
                 val textLikes = anyObject.likes.toString() + " like"
                 val textViews = anyObject.view.toString() + " views"
@@ -30,15 +35,14 @@ class ImageListAdapter() :
             }
         }
 
-        override fun onClick(action: () -> Unit, baseActionListener: BaseActionListener) {
-            with(bind) {
-                if (baseActionListener == BaseActionListener.ADD) {
-                    importantImageView.setOnClickListener {
-                        action()
-                    }
+        override fun onClick(item: Image, abstractListener: AbstractListener<Image>) {
+            with(binding) {
+                importantImageView.setOnClickListener {
+                    (abstractListener as ImageListenerContract).invokeImportantListener(item)
                 }
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,10 +53,7 @@ class ImageListAdapter() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         item?.let { holder.bind(it) }
-        holder.onClick({ addFavorite(item!!) }, BaseActionListener.ADD)
+        holder.onClick(item!!, imageListener)
     }
 
-    private fun addFavorite(image: Image) {
-        image.let { importantListener?.invoke(it) }
-    }
 }
