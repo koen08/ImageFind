@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
@@ -15,7 +16,7 @@ import com.example.imagefind.databinding.ListImageItemBinding
 import com.example.imagefind.domain.models.Image
 
 class ImageListAdapter :
-    PagingDataAdapter<Image, ImageListAdapter.ViewHolder>(ImageListDiffUtils()) {
+    PagingDataAdapter<Image, RecyclerView.ViewHolder>(ImageListDiffUtils()) {
 
     val imageListener: ImageListener = ImageListener()
 
@@ -45,15 +46,62 @@ class ImageListAdapter :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolder(layoutInflater.inflate(R.layout.list_image_item, parent, false))
+    class HeaderSearchViewHolder(itemView: View) :
+        AbstractViewHolder<Image>(itemView), ListenerClick<Image> {
+        private val binding by viewBinding(ListImageItemBinding::bind)
+
+        override fun bind(anyObject: Image) {
+            with(binding) {
+
+            }
+        }
+
+        override fun onClick(item: Image, abstractListener: AbstractListener<Image>) {
+            with(binding) {
+
+            }
+        }
+
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        item?.let { holder.bind(it) }
-        holder.onClick(item!!, imageListener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            TYPE_HEADER -> HeaderSearchViewHolder(
+                layoutInflater.inflate(
+                    R.layout.header_search,
+                    parent,
+                    false
+                )
+            )
+            TYPE_ITEM -> ViewHolder(layoutInflater.inflate(R.layout.list_image_item, parent, false))
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (isPositionHeader(position)) TYPE_HEADER else TYPE_ITEM
+    }
+
+    private fun isPositionHeader(position: Int): Boolean {
+        return position == 0
+    }
+
+    override fun getItemCount(): Int {
+        return differ.itemCount + 1
+    }
+
+    companion object {
+        private const val TYPE_HEADER = 0
+        private const val TYPE_ITEM = 1
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if(holder is ViewHolder) {
+            val item = getItem(position)
+            item?.let { holder.bind(it) }
+            holder.onClick(item!!, imageListener)
+        }
     }
 
 }

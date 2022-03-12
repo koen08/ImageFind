@@ -60,6 +60,7 @@ class ImageWallFragment : Fragment() {
         adapter.imageListener.addFavoriteImage = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
+        adapter.withLoadStateHeader() //https://blog.mindorks.com/paging-3-tutorial
     }
 
     private fun showToast(text: String) {
