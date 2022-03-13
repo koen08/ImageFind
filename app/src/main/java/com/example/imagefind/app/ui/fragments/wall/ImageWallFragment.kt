@@ -44,9 +44,9 @@ class ImageWallFragment : Fragment() {
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel.listImageLiveData.observe(viewLifecycleOwner, {
+        viewModel.listImageLiveData.observe(viewLifecycleOwner) {
             glideImageList(it, adapter)
-        })
+        }
         viewModel.completeAddInfoImage.observe(viewLifecycleOwner, ::showToast)
 
         listenerAddImage(adapter)
@@ -60,7 +60,6 @@ class ImageWallFragment : Fragment() {
         adapter.imageListener.addFavoriteImage = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
-        adapter.withLoadStateHeader() //https://blog.mindorks.com/paging-3-tutorial
     }
 
     private fun showToast(text: String) {

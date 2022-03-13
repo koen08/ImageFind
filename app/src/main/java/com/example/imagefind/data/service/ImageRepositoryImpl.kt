@@ -18,7 +18,8 @@ class ImageRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 1,
                 enablePlaceholders = false,
-                prefetchDistance = 1
+                prefetchDistance = 2,
+                maxSize = 20
             ),
             pagingSourceFactory = { pagingSourceFactory.create(name) }
         ).flowable

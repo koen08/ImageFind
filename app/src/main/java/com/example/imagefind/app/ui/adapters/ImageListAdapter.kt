@@ -87,10 +87,6 @@ class ImageListAdapter :
         return position == 0
     }
 
-    override fun getItemCount(): Int {
-        return differ.itemCount + 1
-    }
-
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
@@ -98,7 +94,7 @@ class ImageListAdapter :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is ViewHolder) {
-            val item = getItem(position)
+            val item = getItem(position - 1)
             item?.let { holder.bind(it) }
             holder.onClick(item!!, imageListener)
         }
