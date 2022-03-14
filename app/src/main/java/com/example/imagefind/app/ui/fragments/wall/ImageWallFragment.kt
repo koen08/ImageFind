@@ -60,6 +60,9 @@ class ImageWallFragment : Fragment() {
         adapter.imageListener.addFavoriteImage = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
+        adapter.searchListener.headerListener = {
+            viewModel.getImageListByName(it)
+        }
     }
 
     private fun showToast(text: String) {
