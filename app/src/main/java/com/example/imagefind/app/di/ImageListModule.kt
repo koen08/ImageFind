@@ -1,14 +1,17 @@
 package com.example.imagefind.app.di
 
 import com.example.imagefind.data.api.ImageApi
+import com.example.imagefind.data.database.FavoriteListPagingSource
 import com.example.imagefind.data.database.ImageDao
 import com.example.imagefind.data.database.ImageDaoDatabase
 import com.example.imagefind.data.network.ImageListNetwork
 import com.example.imagefind.data.network.ImageListNetworkImpl
 import com.example.imagefind.data.network.ImageListPagingSource
+import com.example.imagefind.data.service.FavoritePagingImpl
 import com.example.imagefind.data.service.ImageDaoImpl
 import com.example.imagefind.data.service.ImageRepositoryImpl
 import com.example.imagefind.data.service.ImageRoomRepositoryImpl
+import com.example.imagefind.domain.service.FavoritePaging
 import com.example.imagefind.domain.service.ImageRepository
 import com.example.imagefind.domain.service.ImageRoomRepository
 import dagger.Module
@@ -28,6 +31,11 @@ class ImageListModule {
     @Provides
     fun provideImageDao(imageDaoDatabase: ImageDaoDatabase): ImageDao {
         return ImageDaoImpl(imageDaoDatabase)
+    }
+
+    @Provides
+    fun provideFavoritePaging(favoriteListPagingSource: FavoriteListPagingSource): FavoritePaging {
+        return FavoritePagingImpl(favoriteListPagingSource)
     }
 
     @Provides

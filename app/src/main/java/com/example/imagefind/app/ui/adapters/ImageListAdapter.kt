@@ -1,5 +1,8 @@
 package com.example.imagefind.app.ui.adapters
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +44,7 @@ class ImageListAdapter :
         override fun onClick(item: Image, abstractListener: AbstractListener<Image>) {
             with(binding) {
                 importantImageView.setOnClickListener {
+                    importantImageView.setColorFilter(importantImageView.resources.getColor(R.color.black))
                     (abstractListener as ImageListenerContract).invokeImportantListener(item)
                 }
             }
@@ -92,7 +96,7 @@ class ImageListAdapter :
     }
 
     private fun isPositionHeader(position: Int): Boolean {
-        return position == 0
+        return position == 0 && this.snapshot().items[0].page == 1
     }
 
     companion object {
@@ -102,9 +106,13 @@ class ImageListAdapter :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is ViewHolder) {
-            val item = getItem(position - 1)
-            item?.let { holder.bind(it) }
-            holder.onClick(item!!, imageListener)
+            val positionItem = position - 1
+            if (positionItem != -1) {
+                val item = getItem(positionItem)
+                item?.let { holder.bind(it) }
+                holder.onClick(item!!, imageListener)
+            }
+
         }
         if (holder is HeaderSearchViewHolder) {
             holder.onClick("qwerty", searchListener)

@@ -31,7 +31,8 @@ class ImageListPagingSource @AssistedInject constructor(
                         imageNet.userImageURL,
                         imageNet.userName,
                         imageNet.likes,
-                        imageNet.views
+                        imageNet.views,
+                        pageNumber
                     )
                 },
                 prevKey = if (pageNumber == 1) null else pageNumber - 1,

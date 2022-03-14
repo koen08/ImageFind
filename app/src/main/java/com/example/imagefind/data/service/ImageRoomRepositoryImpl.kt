@@ -15,13 +15,14 @@ class ImageRoomRepositoryImpl @Inject constructor(val imageDao: ImageDao) : Imag
     }
 
     override fun getAll(): Single<ImageFavoriteList> {
-        return imageDao.getAll().map { listImageTable ->
+       /* return imageDao.getAll().map { listImageTable ->
             ImageFavoriteList(
                 listImageTable.map { imageTable ->
                     ImageFavorite(imageTable.imageId, imageTable.imageUrl)
                 } as MutableList<ImageFavorite>
             )
-        }
+        }*/
+        TODO()
     }
 
     override fun delete(imageTable: ImageTable): Completable {

@@ -1,19 +1,24 @@
 package com.example.imagefind.app.ui.fragments.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
 import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.databinding.FragmentImageLikeBinding
+import com.example.imagefind.domain.models.ImageFavorite
 import com.example.imagefind.domain.models.ImageFavoriteList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class ImageLikeFragment : Fragment() {
@@ -26,6 +31,7 @@ class ImageLikeFragment : Fragment() {
     private var _binding: FragmentImageLikeBinding? = null
     private val binding get() = _binding!!
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,9 +49,10 @@ class ImageLikeFragment : Fragment() {
         viewModel = ViewModelProvider(this, favoriteViewModelFactory)
             .get(FavoriteViewModel::class.java)
 
-        viewModel.listImageLiveData.observe(viewLifecycleOwner, {
+        viewModel.listImageLiveData.observe(viewLifecycleOwner) {
             glideImageList(it, adapter)
-        })
+            Log.d("DEBUG_DATA", "item : ${adapter.snapshot().size}")
+        }
 
         listenerDeleteImage(adapter)
 
@@ -63,8 +70,13 @@ class ImageLikeFragment : Fragment() {
 
     private fun showToast(text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 
-    private fun glideImageList(imageFavoriteList: ImageFavoriteList, adapter: FavoriteListAdapter) {
-        adapter.imageList = imageFavoriteList.hits
+    private fun glideImageList(
+        imageFavoriteList: PagingData<ImageFavorite>,
+        adapter: FavoriteListAdapter
+    ) {
+      //  Log.d("DEBUG_DATA", "item : ${adapter.snapshot().items}")
+        adapter.submitData(lifecycle, imageFavoriteList)
+    //    Log.d("DEBUG_DATA", "item : ${adapter.snapshot().items}")
     }
 
     override fun onDestroy() {

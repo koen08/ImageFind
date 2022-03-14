@@ -15,7 +15,7 @@ class ImageDaoImpl(private val imageDaoDataBase: ImageDaoDatabase) : ImageDao {
         return imageDaoDataBase.delete(imageTable)
     }
 
-    override fun getAll(): Single<List<ImageTable>> {
-        return imageDaoDataBase.getAll()
+    override fun getAll(limit: Int, offset: Int): Single<List<ImageTable>> {
+        return imageDaoDataBase.getAll(limit, offset)
     }
 }

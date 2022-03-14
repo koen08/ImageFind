@@ -22,16 +22,11 @@ class MainViewModel @Inject constructor(
     private val listImageMutableLive = MutableLiveData<PagingData<Image>>()
     val listImageLiveData: LiveData<PagingData<Image>> = listImageMutableLive
 
-    private val completeMutableAddInfoImage = MutableLiveData<String>()
-    val completeAddInfoImage: LiveData<String> = completeMutableAddInfoImage
-
     var query: String = ""
 
     fun getImageListByName() {
-        Log.i("QQQ", query)
-        val result = getImageByNameUseCase.get(query)
-        val disposable = result.cachedIn(viewModelScope)
-            .subscribe({
+        val disposable = getImageByNameUseCase.get(query).cachedIn(viewModelScope)
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
                 listImageMutableLive.value = it
             }, {
                 Log.e("Error", it.localizedMessage!!)
@@ -42,11 +37,7 @@ class MainViewModel @Inject constructor(
     fun addImageIdToDB(imageId: Long, imageUrl: String) {
         val imageTable = ImageTable(imageId = imageId, imageUrl = imageUrl)
         val disposable = addImageDatabaseUseCase.add(imageTable).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                completeMutableAddInfoImage.value = "Image added to favorites"
-            }, {
-                Log.e("Error", it.localizedMessage!!)
-            })
+            .observeOn(AndroidSchedulers.mainThread()).subscribe()
         compositeDisposable.add(disposable)
     }
 }

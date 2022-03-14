@@ -1,8 +1,10 @@
 package com.example.imagefind.app.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -12,18 +14,13 @@ import com.example.imagefind.app.ui.adapters.listeners.AbstractListener
 import com.example.imagefind.app.ui.adapters.listeners.FavoriteListener
 import com.example.imagefind.app.ui.adapters.listeners.ListenerClick
 import com.example.imagefind.databinding.FavoriteListItemBinding
+import com.example.imagefind.domain.models.Image
 import com.example.imagefind.domain.models.ImageFavorite
 import kotlin.math.abs
 
 class FavoriteListAdapter() :
-    RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
-    var imageList: List<ImageFavorite> = emptyList()
-        set(newList) {
-            val diffCallBack = FavoriteDiffCallBack(field, newList)
-            val diffResult = DiffUtil.calculateDiff(diffCallBack)
-            diffResult.dispatchUpdatesTo(this)
-            field = newList
-        }
+    PagingDataAdapter<ImageFavorite, FavoriteListAdapter.ViewHolder>(FavoriteDiffCallBack()) {
+
     var favoriteListener: FavoriteListener = FavoriteListener()
 
 
@@ -58,13 +55,9 @@ class FavoriteListAdapter() :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageFavorite = imageList[position]
-        imageFavorite.let { holder.bind(it) }
-        holder.onClick(imageFavorite, favoriteListener)
-    }
-
-    override fun getItemCount(): Int {
-        return imageList.size
+        val imageFavorite = getItem(position)
+        imageFavorite.let { holder.bind(it!!) }
+        holder.onClick(imageFavorite!!, favoriteListener)
     }
 
 }

@@ -48,7 +48,6 @@ class ImageWallFragment : Fragment() {
         viewModel.listImageLiveData.observe(viewLifecycleOwner) {
             glideImageList(it, adapter)
         }
-        viewModel.completeAddInfoImage.observe(viewLifecycleOwner, ::showToast)
 
         listenerAddImage(adapter)
 
@@ -65,10 +64,6 @@ class ImageWallFragment : Fragment() {
             viewModel.query = it
             viewModel.getImageListByName()
         }
-    }
-
-    private fun showToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
     private fun glideImageList(pagingData: PagingData<Image>, adapter: ImageListAdapter) {

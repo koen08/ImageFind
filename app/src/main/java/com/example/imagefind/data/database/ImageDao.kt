@@ -7,5 +7,5 @@ import io.reactivex.rxjava3.core.Single
 interface ImageDao {
     fun insert(imageTable: ImageTable): Completable
     fun delete(imageTable: ImageTable): Completable
-    fun getAll(): Single<List<ImageTable>>
+    fun getAll(limit: Int, offset: Int): Single<List<ImageTable>>
 }

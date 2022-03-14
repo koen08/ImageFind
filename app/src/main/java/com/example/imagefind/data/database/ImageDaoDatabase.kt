@@ -13,6 +13,6 @@ interface ImageDaoDatabase {
     @Delete
     fun delete(imageTable: ImageTable): Completable
 
-    @Query("SELECT * FROM image_table")
-    fun getAll(): Single<List<ImageTable>>
+    @Query("SELECT * FROM image_table LIMIT :limit OFFSET :offset")
+    fun getAll(limit: Int, offset: Int): Single<List<ImageTable>>
 }

@@ -6,5 +6,6 @@ data class Image(
     val avatar: String,
     val userName: String,
     val likes: Int,
-    val view: Int
+    val view: Int,
+    val page: Int
 )
