@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).addToBackStack(null)
+            .commit()
 
 }

@@ -25,8 +25,11 @@ class MainViewModel @Inject constructor(
     private val completeMutableAddInfoImage = MutableLiveData<String>()
     val completeAddInfoImage: LiveData<String> = completeMutableAddInfoImage
 
-    fun getImageListByName(name: String) {
-        val result = getImageByNameUseCase.get(name)
+    var query: String = ""
+
+    fun getImageListByName() {
+        Log.i("QQQ", query)
+        val result = getImageByNameUseCase.get(query)
         val disposable = result.cachedIn(viewModelScope)
             .subscribe({
                 listImageMutableLive.value = it

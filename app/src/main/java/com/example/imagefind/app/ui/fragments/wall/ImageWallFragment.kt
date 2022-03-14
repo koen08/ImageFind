@@ -1,6 +1,7 @@
 package com.example.imagefind.app.ui.fragments.wall
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,7 @@ class ImageWallFragment : Fragment() {
 
         listenerAddImage(adapter)
 
-        viewModel.getImageListByName("microsoft")
+        viewModel.getImageListByName()
 
         return view
     }
@@ -61,7 +62,8 @@ class ImageWallFragment : Fragment() {
             viewModel.addImageIdToDB(it.id, it.url)
         }
         adapter.searchListener.headerListener = {
-            viewModel.getImageListByName(it)
+            viewModel.query = it
+            viewModel.getImageListByName()
         }
     }
 
@@ -74,11 +76,13 @@ class ImageWallFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        Log.i("QQQ", "OnDestroy")
         viewModel.onDestroy()
         super.onDestroy()
     }
 
     override fun onDestroyView() {
+        Log.i("QQQ", "onDestroyView")
         super.onDestroyView()
         _binding = null
     }
