@@ -12,7 +12,9 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
+import com.example.imagefind.app.ui.MainActivity
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
+import com.example.imagefind.app.ui.fragments.advanceQuery.AdvanceQueryFragment
 import com.example.imagefind.databinding.FragmentImageWallBinding
 import com.example.imagefind.domain.models.Image
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -65,7 +67,7 @@ class ImageWallFragment : Fragment() {
             viewModel.getImageListByName()
         }
         adapter.advanceSearchListener.listener = {
-            Toast.makeText(context, "PRESS", Toast.LENGTH_LONG).show()
+            (activity as MainActivity).makeCurrentFragment(AdvanceQueryFragment())
         }
     }
 
