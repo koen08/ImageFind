@@ -57,12 +57,15 @@ class ImageWallFragment : Fragment() {
     }
 
     private fun listenerAddImage(adapter: ImageListAdapter) {
-        adapter.imageListener.addFavoriteImage = {
+        adapter.imageListener.listener = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
-        adapter.searchListener.headerListener = {
+        adapter.searchListener.listener = {
             viewModel.query = it
             viewModel.getImageListByName()
+        }
+        adapter.advanceSearchListener.listener = {
+            Toast.makeText(context, "PRESS", Toast.LENGTH_LONG).show()
         }
     }
 
