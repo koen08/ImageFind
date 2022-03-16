@@ -5,5 +5,10 @@ import com.example.imagefind.domain.models.Image
 import io.reactivex.rxjava3.core.Flowable
 
 interface ImageRepository {
-    fun get(name: String): Flowable<PagingData<Image>>
+    fun get(
+        name: String,
+        orientation: String,
+        imageType: String,
+        order: String
+    ): Flowable<PagingData<Image>>
 }

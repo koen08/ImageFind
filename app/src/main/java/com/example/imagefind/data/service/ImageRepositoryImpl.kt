@@ -13,7 +13,12 @@ import javax.inject.Inject
 class ImageRepositoryImpl @Inject constructor(
     private val pagingSourceFactory: ImageListPagingSource.Factory
 ) : ImageRepository {
-    override fun get(name: String): Flowable<PagingData<Image>> {
+    override fun get(
+        name: String,
+        orientation: String,
+        imageType: String,
+        order: String
+    ): Flowable<PagingData<Image>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 1,
@@ -21,7 +26,14 @@ class ImageRepositoryImpl @Inject constructor(
                 prefetchDistance = 2,
                 maxSize = 20
             ),
-            pagingSourceFactory = { pagingSourceFactory.create(name) }
+            pagingSourceFactory = {
+                pagingSourceFactory.create(
+                    name,
+                    orientation,
+                    imageType,
+                    order
+                )
+            }
         ).flowable
     }
 }

@@ -11,6 +11,8 @@ interface ImageApi {
         @Query("key") key: String,
         @Query("q") param: String,
         @Query("orientation") orientation: String,
+        @Query("image_type") imageType: String,
+        @Query("order") order: String,
         @Query("page") page: Int
     ): Single<ImageListNet>
 }

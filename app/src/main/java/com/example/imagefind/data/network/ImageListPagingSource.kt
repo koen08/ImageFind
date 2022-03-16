@@ -11,7 +11,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ImageListPagingSource @AssistedInject constructor(
     private val imageListNetwork: ImageListNetwork,
-    @Assisted("name") val name: String
+    @Assisted("name") val name: String,
+    @Assisted("orientation") val orientation: String,
+    @Assisted("imageType") val imageType: String,
+    @Assisted("order") val order: String
 ) : RxPagingSource<Int, Image>() {
     override fun getRefreshKey(state: PagingState<Int, Image>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
@@ -21,7 +24,8 @@ class ImageListPagingSource @AssistedInject constructor(
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Image>> {
         val pageNumber = params.key ?: 1
-        val response = imageListNetwork.getImageList(name, pageNumber)
+        val response =
+            imageListNetwork.getImageList(name, orientation, imageType, order, pageNumber)
         return response.subscribeOn(Schedulers.io()).map {
             LoadResult.Page(
                 data = it.hits.map { imageNet ->
@@ -43,6 +47,11 @@ class ImageListPagingSource @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted("name") query: String): ImageListPagingSource
+        fun create(
+            @Assisted("name") query: String,
+            @Assisted("orientation") orientation: String,
+            @Assisted("imageType") imageType: String,
+            @Assisted("order") order: String
+        ): ImageListPagingSource
     }
 }
