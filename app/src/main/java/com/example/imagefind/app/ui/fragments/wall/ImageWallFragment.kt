@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.MainActivity
+import com.example.imagefind.app.ui.ViewModelFactory
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
 import com.example.imagefind.app.ui.fragments.advanceQuery.AdvanceQueryFragment
 import com.example.imagefind.databinding.FragmentImageWallBinding
@@ -64,10 +64,9 @@ class ImageWallFragment : Fragment() {
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel._orientationLiveData.value = "all"
 
         if (orientation != null) {
-            viewModel._orientationLiveData.value = orientation
+            viewModel.orientationType = orientation
         }
         if (imageType != null) {
             viewModel.imageType = imageType
@@ -112,7 +111,6 @@ class ImageWallFragment : Fragment() {
 
     override fun onDestroyView() {
         Log.i("QQQ", "onDestroyView")
-        Log.i("QQQ", viewModel._orientationLiveData.value.toString())
         super.onDestroyView()
         _binding = null
     }

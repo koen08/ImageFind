@@ -5,26 +5,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
-import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
+import com.example.imagefind.app.ui.ViewModelFactory
 import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.databinding.FragmentImageLikeBinding
 import com.example.imagefind.domain.models.ImageFavorite
-import com.example.imagefind.domain.models.ImageFavoriteList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class ImageLikeFragment : Fragment() {
 
     @Inject
-    lateinit var favoriteViewModelFactory: FavoriteViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
     var recyclerView: RecyclerView? = null
     private lateinit var viewModel: FavoriteViewModel
 
@@ -46,7 +44,7 @@ class ImageLikeFragment : Fragment() {
         (activity?.application as App).appComponent.inject(this)
         recyclerView?.layoutManager = GridLayoutManager(activity, 2)
 
-        viewModel = ViewModelProvider(this, favoriteViewModelFactory)
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FavoriteViewModel::class.java)
 
         viewModel.listImageLiveData.observe(viewLifecycleOwner) {
@@ -68,15 +66,11 @@ class ImageLikeFragment : Fragment() {
         }
     }
 
-    private fun showToast(text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-
     private fun glideImageList(
         imageFavoriteList: PagingData<ImageFavorite>,
         adapter: FavoriteListAdapter
     ) {
-      //  Log.d("DEBUG_DATA", "item : ${adapter.snapshot().items}")
         adapter.submitData(lifecycle, imageFavoriteList)
-    //    Log.d("DEBUG_DATA", "item : ${adapter.snapshot().items}")
     }
 
     override fun onDestroy() {

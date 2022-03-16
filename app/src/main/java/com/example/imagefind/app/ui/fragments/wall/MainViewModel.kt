@@ -24,24 +24,22 @@ class MainViewModel @Inject constructor(
 
     var query: String = ""
 
-    public var _orientationLiveData = MutableLiveData<String>()
-    val orientationLiveData: LiveData<String> = _orientationLiveData
+    var orientationType: String = ""
 
     var imageType: String = ""
 
     var order: String = ""
 
     fun getImageListByName() {
-        Log.i("QQQ", orientationLiveData.value.toString())
+        Log.i("QQQ", orientationType)
+        Log.i("QQQ", imageType)
         val disposable =
-            orientationLiveData.value?.let {
-                getImageByNameUseCase.get(query, it, imageType, order).cachedIn(viewModelScope)
-                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
-                        listImageMutableLive.value = it
-                    }, {
-                        Log.e("Error", it.localizedMessage!!)
-                    })
-            }
+            getImageByNameUseCase.get(query, orientationType, imageType, order).cachedIn(viewModelScope)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    listImageMutableLive.value = it
+                }, {
+                    Log.e("Error", it.localizedMessage!!)
+                })
         compositeDisposable.add(disposable)
     }
 
