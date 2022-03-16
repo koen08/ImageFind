@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,16 +15,14 @@ import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.MainActivity
 import com.example.imagefind.app.ui.ViewModelFactory
 import com.example.imagefind.app.ui.adapters.ImageListAdapter
+import com.example.imagefind.app.ui.fragments.AbstractFragment
 import com.example.imagefind.app.ui.fragments.advanceQuery.AdvanceQueryFragment
 import com.example.imagefind.databinding.FragmentImageWallBinding
 import com.example.imagefind.domain.models.Image
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-class ImageWallFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+class ImageWallFragment : AbstractFragment() {
 
     var recyclerView: RecyclerView? = null
     private lateinit var viewModel: MainViewModel
@@ -49,6 +48,7 @@ class ImageWallFragment : Fragment() {
     ): View {
         Log.i("QQQ", "onCreateView")
         val bundle = arguments
+        val query = bundle?.getString("query")
         val orientation = bundle?.getString("orientation")
         val imageType = bundle?.getString("imageType")
         val order = bundle?.getString("order")
@@ -63,7 +63,7 @@ class ImageWallFragment : Fragment() {
         (activity?.application as App).appComponent.inject(this)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = injectViewModel()
 
         if (orientation != null) {
             viewModel.orientationType = orientation
@@ -73,6 +73,9 @@ class ImageWallFragment : Fragment() {
         }
         if (order != null) {
             viewModel.order = order
+        }
+        if (query != null) {
+            viewModel.query = query
         }
 
         viewModel.listImageLiveData.observe(viewLifecycleOwner) {
@@ -95,7 +98,7 @@ class ImageWallFragment : Fragment() {
             viewModel.getImageListByName()
         }
         adapter.advanceSearchListener.listener = {
-            (activity as MainActivity).makeCurrentFragment(AdvanceQueryFragment())
+            (activity as MainActivity).makeCurrentFragment(AdvanceQueryFragment(), true)
         }
     }
 
@@ -105,7 +108,9 @@ class ImageWallFragment : Fragment() {
 
     override fun onDestroy() {
         Log.i("QQQ", "OnDestroy")
-        viewModel.onDestroy()
+        if (::viewModel.isInitialized) {
+            viewModel.onDestroy()
+        }
         super.onDestroy()
     }
 

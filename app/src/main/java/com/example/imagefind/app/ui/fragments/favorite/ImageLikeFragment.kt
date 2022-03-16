@@ -13,16 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.app.App
 import com.example.imagefind.app.ui.adapters.FavoriteListAdapter
 import com.example.imagefind.app.ui.ViewModelFactory
+import com.example.imagefind.app.ui.fragments.AbstractFragment
 import com.example.imagefind.data.database.models.ImageTable
 import com.example.imagefind.databinding.FragmentImageLikeBinding
 import com.example.imagefind.domain.models.ImageFavorite
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-class ImageLikeFragment : Fragment() {
+class ImageLikeFragment : AbstractFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
     var recyclerView: RecyclerView? = null
     private lateinit var viewModel: FavoriteViewModel
 
@@ -44,8 +43,7 @@ class ImageLikeFragment : Fragment() {
         (activity?.application as App).appComponent.inject(this)
         recyclerView?.layoutManager = GridLayoutManager(activity, 2)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(FavoriteViewModel::class.java)
+        viewModel = injectViewModel()
 
         viewModel.listImageLiveData.observe(viewLifecycleOwner) {
             glideImageList(it, adapter)
@@ -74,7 +72,9 @@ class ImageLikeFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        viewModel.onDestroy()
+        if (::viewModel.isInitialized) {
+            viewModel.onDestroy()
+        }
         super.onDestroy()
     }
 

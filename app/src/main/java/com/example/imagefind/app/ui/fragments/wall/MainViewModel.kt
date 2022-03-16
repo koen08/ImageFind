@@ -3,6 +3,7 @@ package com.example.imagefind.app.ui.fragments.wall
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
@@ -40,6 +41,7 @@ class MainViewModel @Inject constructor(
                 }, {
                     Log.e("Error", it.localizedMessage!!)
                 })
+        Log.i("dis", disposable.isDisposed.toString())
         compositeDisposable.add(disposable)
     }
 

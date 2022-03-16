@@ -25,6 +25,7 @@ class AdvanceQueryFragment : Fragment() {
         val orientationChipGroup = binding.orientationChipGroup
         val imageTypeChipGroup = binding.imageTypeChipGroup
         val orderChipGroup = binding.orderChipGroup
+        val queryEditText = binding.searchEditText
 
         var chipOrientationChecked: Chip = getChip(orientationChipGroup.checkedChipId)
         var chipImageTypeChecked: Chip = getChip(imageTypeChipGroup.checkedChipId)
@@ -47,21 +48,26 @@ class AdvanceQueryFragment : Fragment() {
         searchButton.setOnClickListener {
             val imageWallFragment = ImageWallFragment()
             val bundle = getBundle(
+                queryEditText.text.toString(),
                 chipOrientationChecked.text.toString(),
                 chipImageTypeChecked.text.toString(),
                 chipOrderChecked.text.toString()
             )
             imageWallFragment.arguments = bundle
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.frame, imageWallFragment)
-                ?.commit()
+            (activity as MainActivity).makeCurrentFragment(imageWallFragment, false)
         }
 
         return binding.root
     }
 
-    private fun getBundle(orientation: String, imageType: String, order: String): Bundle {
+    private fun getBundle(
+        query: String,
+        orientation: String,
+        imageType: String,
+        order: String
+    ): Bundle {
         val bundle = Bundle()
+        bundle.putString("query", query)
         bundle.putString("orientation", orientation.lowercase())
         bundle.putString("imageType", imageType.lowercase())
         bundle.putString("order", order.lowercase())
