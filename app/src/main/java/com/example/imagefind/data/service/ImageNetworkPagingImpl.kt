@@ -6,13 +6,13 @@ import androidx.paging.PagingData
 import androidx.paging.rxjava3.flowable
 import com.example.imagefind.data.network.ImageListPagingSource
 import com.example.imagefind.domain.models.Image
-import com.example.imagefind.domain.service.ImageRepository
+import com.example.imagefind.domain.service.ImageNetworkPaging
 import io.reactivex.rxjava3.core.Flowable
 import javax.inject.Inject
 
-class ImageRepositoryImpl @Inject constructor(
+class ImageNetworkPagingImpl @Inject constructor(
     private val pagingSourceFactory: ImageListPagingSource.Factory
-) : ImageRepository {
+) : ImageNetworkPaging {
     override fun get(
         name: String,
         orientation: String,

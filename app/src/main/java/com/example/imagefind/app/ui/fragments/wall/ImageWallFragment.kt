@@ -30,23 +30,11 @@ class ImageWallFragment : AbstractFragment() {
     private var _binding: FragmentImageWallBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("QQQ", "onViewCreated")
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.i("QQQ", "onViewCreated")
-    }
-
     @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.i("QQQ", "onCreateView")
         val bundle = arguments
         val query = bundle?.getString("query")
         val orientation = bundle?.getString("orientation")
@@ -65,37 +53,23 @@ class ImageWallFragment : AbstractFragment() {
 
         viewModel = injectViewModel()
 
-        if (orientation != null) {
-            viewModel.orientationType = orientation
-        }
-        if (imageType != null) {
-            viewModel.imageType = imageType
-        }
-        if (order != null) {
-            viewModel.order = order
-        }
-        if (query != null) {
-            viewModel.query = query
-        }
-
         viewModel.listImageLiveData.observe(viewLifecycleOwner) {
             glideImageList(it, adapter)
         }
 
-        listenerAddImage(adapter)
+        listenerAdapter(adapter)
 
-        viewModel.getImageListByName()
+        viewModel.getImageListByName(query, orientation, imageType, order)
 
         return view
     }
 
-    private fun listenerAddImage(adapter: ImageListAdapter) {
+    private fun listenerAdapter(adapter: ImageListAdapter) {
         adapter.imageListener.listener = {
             viewModel.addImageIdToDB(it.id, it.url)
         }
-        adapter.searchListener.listener = {
-            viewModel.query = it
-            viewModel.getImageListByName()
+        adapter.searchListener.listener = { query ->
+            viewModel.getImageListByName(query, "", "", "")
         }
         adapter.advanceSearchListener.listener = {
             (activity as MainActivity).makeCurrentFragment(AdvanceQueryFragment(), true)
@@ -107,7 +81,6 @@ class ImageWallFragment : AbstractFragment() {
     }
 
     override fun onDestroy() {
-        Log.i("QQQ", "OnDestroy")
         if (::viewModel.isInitialized) {
             viewModel.onDestroy()
         }
@@ -115,13 +88,7 @@ class ImageWallFragment : AbstractFragment() {
     }
 
     override fun onDestroyView() {
-        Log.i("QQQ", "onDestroyView")
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        Log.i("QQQ", "onSaveInstanceState")
-        super.onSaveInstanceState(outState)
     }
 }

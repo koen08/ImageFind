@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.example.imagefind.domain.models.Image
 import io.reactivex.rxjava3.core.Flowable
 
-interface ImageRepository {
+interface ImageNetworkPaging {
     fun get(
         name: String,
         orientation: String,

@@ -47,7 +47,6 @@ class ImageLikeFragment : AbstractFragment() {
 
         viewModel.listImageLiveData.observe(viewLifecycleOwner) {
             glideImageList(it, adapter)
-            Log.d("DEBUG_DATA", "item : ${adapter.snapshot().size}")
         }
 
         listenerDeleteImage(adapter)

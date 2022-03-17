@@ -23,26 +23,37 @@ class MainViewModel @Inject constructor(
     private val listImageMutableLive = MutableLiveData<PagingData<Image>>()
     val listImageLiveData: LiveData<PagingData<Image>> = listImageMutableLive
 
-    var query: String = ""
+    private var query: String = ""
 
-    var orientationType: String = ""
+    private var orientationType: String = ""
 
-    var imageType: String = ""
+    private var imageType: String = ""
 
-    var order: String = ""
+    private var order: String = ""
 
-    fun getImageListByName() {
-        Log.i("QQQ", orientationType)
-        Log.i("QQQ", imageType)
+    fun getImageListByName(
+        query: String?,
+        orientationType: String?,
+        imageType: String?,
+        order: String?
+    ) {
+        this.query = query ?: this.query
+        this.orientationType = orientationType ?: this.query
+        this.imageType = imageType ?: this.query
+        this.order = order ?: this.query
+
         val disposable =
-            getImageByNameUseCase.get(query, orientationType, imageType, order).cachedIn(viewModelScope)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
+            getImageByNameUseCase.get(this.query, this.orientationType, this.imageType, this.order)
+                .cachedIn(viewModelScope)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
                     listImageMutableLive.value = it
                 }, {
                     Log.e("Error", it.localizedMessage!!)
                 })
-        Log.i("dis", disposable.isDisposed.toString())
+
         compositeDisposable.add(disposable)
+
     }
 
     fun addImageIdToDB(imageId: Long, imageUrl: String) {

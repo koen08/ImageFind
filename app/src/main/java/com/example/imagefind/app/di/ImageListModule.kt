@@ -9,10 +9,10 @@ import com.example.imagefind.data.network.ImageListNetworkImpl
 import com.example.imagefind.data.network.ImageListPagingSource
 import com.example.imagefind.data.service.FavoritePagingImpl
 import com.example.imagefind.data.service.ImageDaoImpl
-import com.example.imagefind.data.service.ImageRepositoryImpl
+import com.example.imagefind.data.service.ImageNetworkPagingImpl
 import com.example.imagefind.data.service.ImageRoomRepositoryImpl
 import com.example.imagefind.domain.service.FavoritePaging
-import com.example.imagefind.domain.service.ImageRepository
+import com.example.imagefind.domain.service.ImageNetworkPaging
 import com.example.imagefind.domain.service.ImageRoomRepository
 import dagger.Module
 import dagger.Provides
@@ -24,8 +24,8 @@ class ImageListModule {
         ImageListNetworkImpl(imageApi)
 
     @Provides
-    fun provideImageService(imageListPagingSource: ImageListPagingSource.Factory): ImageRepository {
-        return ImageRepositoryImpl(imageListPagingSource)
+    fun provideImageService(imageListPagingSource: ImageListPagingSource.Factory): ImageNetworkPaging {
+        return ImageNetworkPagingImpl(imageListPagingSource)
     }
 
     @Provides
