@@ -24,5 +24,4 @@ Architecture: clean architecture.
 
 ### Актуальный скриншот приложения
 
-<a href="https://ibb.co/RpGVPHt"><img width="320" height="640" src="https://i.ibb.co/6RcfbsG/Screenshot-1646123919.png" alt="Screenshot-1646123919" border="0"></a>
-<a href="https://ibb.co/H21Wnmw"><img width="320" height="640" src="https://i.ibb.co/CtNkhxC/Screenshot-1646123924.png" alt="Screenshot-1646123924" border="0"></a>
+![screen 1](screen1.png)
