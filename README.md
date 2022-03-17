@@ -24,4 +24,22 @@ Architecture: clean architecture.
 
 ### Актуальный скриншот приложения
 
-![screen 1](screen1.png)
+<img src="screen1.png"
+alt="image 1"
+width="320"
+height="640"
+style="float: left; margin-right: 10px;" />
+
+<img src="screen2.png"
+alt="image 2"
+width="320"
+height="640"
+style="float: left; margin-right: 10px;" />
+
+<img src="screen3.png"
+alt="image 3"
+width="320"
+height="640"
+style="float: left; margin-right: 10px;" />
+
+
