@@ -31,6 +31,12 @@ class AdvanceQueryFragment : Fragment() {
         var chipImageTypeChecked: Chip = getChip(imageTypeChipGroup.checkedChipId)
         var chipOrderChecked: Chip = getChip(orderChipGroup.checkedChipId)
 
+        var closeButton = binding.closeButton
+
+        closeButton.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
         orientationChipGroup.setOnCheckedChangeListener { _, id ->
             chipOrientationChecked = getChip(id)
         }
