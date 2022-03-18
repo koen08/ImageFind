@@ -5,14 +5,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.imagefind.R
 import com.example.imagefind.app.ui.adapters.AbstractViewHolder
-import com.example.imagefind.app.ui.adapters.listeners.ImageListenerArgs
-import com.example.imagefind.app.ui.adapters.listeners.Listener
-import com.example.imagefind.app.ui.adapters.listeners.ListenerClick
 import com.example.imagefind.databinding.ListImageItemBinding
 import com.example.imagefind.domain.models.Image
 
 class ImageListViewHolder(itemView: View) :
-    AbstractViewHolder<Image>(itemView), ListenerClick<Image> {
+    AbstractViewHolder<Image>(itemView) {
     private val binding by viewBinding(ListImageItemBinding::bind)
 
     override fun bind(anyObject: Image) {
@@ -27,11 +24,11 @@ class ImageListViewHolder(itemView: View) :
         }
     }
 
-    override fun onClick(item: Image,  vararg listeners: Listener) {
+    override fun onClick(item: Image, vararg listener: ((Image) -> Unit)) {
         with(binding) {
             importantImageView.setOnClickListener {
                 importantImageView.setColorFilter(importantImageView.resources.getColor(R.color.black))
-                (listeners[0] as ImageListenerArgs).invoke(item)
+                listener[0].invoke(item)
             }
         }
     }

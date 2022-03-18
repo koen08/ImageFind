@@ -37,7 +37,10 @@ class ImageLikeFragment : AbstractFragment() {
         val view = binding.root
 
         recyclerView = binding.recycleImageLike
-        val adapter = FavoriteListAdapter()
+        val adapter = FavoriteListAdapter {
+            val imageTable = ImageTable(it.id, it.url)
+            viewModel.delete(imageTable)
+        }
         recyclerView?.adapter = adapter
 
         (activity?.application as App).appComponent.inject(this)
@@ -49,18 +52,9 @@ class ImageLikeFragment : AbstractFragment() {
             glideImageList(it, adapter)
         }
 
-        listenerDeleteImage(adapter)
-
         viewModel.getImageAll()
 
         return view
-    }
-
-    private fun listenerDeleteImage(adapter: FavoriteListAdapter) {
-        adapter.favoriteListener.listener = {
-            val imageTable = ImageTable(it.id, it.url)
-            viewModel.delete(imageTable)
-        }
     }
 
     private fun glideImageList(

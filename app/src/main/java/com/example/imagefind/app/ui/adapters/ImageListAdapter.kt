@@ -5,20 +5,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagefind.R
-import com.example.imagefind.app.ui.adapters.listeners.AdvanceSearchListenerNoArgs
-import com.example.imagefind.app.ui.adapters.listeners.ImageListenerArgs
-import com.example.imagefind.app.ui.adapters.listeners.SearchHeaderListenerArgs
 import com.example.imagefind.app.ui.adapters.viewholders.HeaderSearchViewHolder
 import com.example.imagefind.app.ui.adapters.viewholders.ImageListViewHolder
 import com.example.imagefind.domain.models.Image
 
 
-class ImageListAdapter :
+class ImageListAdapter(
+    val listenerItemImage: ((Image) -> Unit) = {},
+    var listenerSearch: ((String) -> Unit) = {},
+    var listenerAdvanceSearch: (() -> Unit) = {}
+) :
     PagingDataAdapter<Image, RecyclerView.ViewHolder>(ImageListDiffUtils()) {
-
-    val imageListener: ImageListenerArgs = ImageListenerArgs()
-    val searchListener: SearchHeaderListenerArgs = SearchHeaderListenerArgs()
-    val advanceSearchListener: AdvanceSearchListenerNoArgs = AdvanceSearchListenerNoArgs()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,7 +27,13 @@ class ImageListAdapter :
                     false
                 )
             )
-            TYPE_ITEM -> ImageListViewHolder(layoutInflater.inflate(R.layout.list_image_item, parent, false))
+            TYPE_ITEM -> ImageListViewHolder(
+                layoutInflater.inflate(
+                    R.layout.list_image_item,
+                    parent,
+                    false
+                )
+            )
             else -> throw IllegalArgumentException()
         }
     }
@@ -49,17 +52,18 @@ class ImageListAdapter :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is ImageListViewHolder) {
+        if (holder is ImageListViewHolder) {
             val positionItem = position - 1
             if (positionItem != -1) {
                 val item = getItem(positionItem)
                 item?.let { holder.bind(it) }
-                holder.onClick(item!!, imageListener)
+                holder.onClick(item!!, listenerItemImage)
             }
 
         }
         if (holder is HeaderSearchViewHolder) {
-            holder.onClick("qwerty", searchListener, advanceSearchListener)
+            holder.onClick(listenerAdvanceSearch)
+            holder.onClick(listenerSearch)
         }
     }
 

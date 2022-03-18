@@ -45,7 +45,17 @@ class ImageWallFragment : AbstractFragment() {
         val view = binding.root
 
         recyclerView = binding.recycleImageWall
-        val adapter = ImageListAdapter()
+        val adapter = ImageListAdapter(
+            {
+                viewModel.addImageIdToDB(it.id, it.url)
+            },
+            {
+                viewModel.getImageListByName(query, "", "", "")
+            },
+            {
+                (activity as MainActivity).makeCurrentFragment(AdvanceQueryFragment(), true)
+            }
+        )
         recyclerView?.adapter = adapter
 
         (activity?.application as App).appComponent.inject(this)
@@ -57,23 +67,9 @@ class ImageWallFragment : AbstractFragment() {
             glideImageList(it, adapter)
         }
 
-        listenerAdapter(adapter)
-
         viewModel.getImageListByName(query, orientation, imageType, order)
 
         return view
-    }
-
-    private fun listenerAdapter(adapter: ImageListAdapter) {
-        adapter.imageListener.listener = {
-            viewModel.addImageIdToDB(it.id, it.url)
-        }
-        adapter.searchListener.listener = { query ->
-            viewModel.getImageListByName(query, "", "", "")
-        }
-        adapter.advanceSearchListener.listener = {
-            (activity as MainActivity).makeCurrentFragment(AdvanceQueryFragment(), true)
-        }
     }
 
     private fun glideImageList(pagingData: PagingData<Image>, adapter: ImageListAdapter) {
